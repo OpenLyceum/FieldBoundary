@@ -1,6 +1,6 @@
 # CLAUDE.md — Field Boundary
 
-Sim-specific context for AI assistants. General SceneryStack guidance: [OpenPhysics/.github/CLAUDE.md](https://github.com/OpenPhysics/.github/blob/main/CLAUDE.md).
+Sim-specific context for AI assistants. General SceneryStack guidance: [OpenLyceum/.github/CLAUDE.md](https://github.com/OpenLyceum/.github/blob/main/CLAUDE.md).
 
 ## Project
 
@@ -67,7 +67,7 @@ Bᵢ = μᵢ Hᵢ
 
 ## Accessibility
 
-Follows [Baton/ACCESSIBILITY.md](https://github.com/OpenPhysics/Baton/blob/main/ACCESSIBILITY.md).
+Follows [Baton/ACCESSIBILITY.md](https://github.com/OpenLyceum/Baton/blob/main/ACCESSIBILITY.md).
 Screen summaries live in `*ScreenSummaryContent.ts`; a11y strings under `a11y` in locale JSON.
 The "current details" region is a live `DerivedProperty` built in `currentDetails.ts` —
 keep it dynamic, or a non-visual student hears nothing about the fields themselves.

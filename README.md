@@ -1,6 +1,6 @@
 # Field Boundary
 
-[![CI](https://github.com/OpenPhysics/FieldBoundary/actions/workflows/ci.yml/badge.svg)](https://github.com/OpenPhysics/FieldBoundary/actions/workflows/ci.yml)
+[![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 
 Interactive Maxwell **planar interface** boundary conditions for \(\vec{E}/\vec{D}\) and \(\vec{H}/\vec{B}\). Drag the incident field, change \(\varepsilon_r\) or \(\mu_r\), and watch which components stay continuous — not Snell’s-law ray optics (see OpticsLab).
 
@@ -13,7 +13,7 @@ Interactive Maxwell **planar interface** boundary conditions for \(\vec{E}/\vec{
 - English, Spanish, and French localization via `StringManager`
 - Default and projector color profiles
 - Progressive Web App (installable, offline-capable)
-- Shared GitHub Actions CI via `OpenPhysics/Baton`
+- Shared GitHub Actions CI via `OpenLyceum/Baton`
 
 ## Quick Start
 
@@ -56,9 +56,9 @@ New sims start at `version: "0.0.0"` in `package.json`. Bump only when cutting a
 
 ## License
 
-GNU Affero General Public License v3.0 — see [OpenPhysics org license](https://github.com/OpenPhysics/.github/blob/main/LICENSE).
+GNU Affero General Public License v3.0 — see [OpenLyceum org license](https://github.com/OpenLyceum/.github/blob/main/LICENSE).
 
 ## Contributing
 
-See [OpenPhysics contributing guidelines](https://github.com/OpenPhysics/.github/blob/main/CONTRIBUTING.md).
+See [OpenLyceum contributing guidelines](https://github.com/OpenLyceum/.github/blob/main/CONTRIBUTING.md).
 Report bugs via GitHub Issues; use org issue templates.
