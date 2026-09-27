@@ -11,24 +11,14 @@
  * 2. If it should also be user-editable at runtime, surface it as a preference
  *    in FieldBoundaryPreferencesModel (initialize that Property from this query parameter).
  *
- * Usage: append e.g. `?exampleToggle=true` to the sim URL.
+ * Usage: append e.g. `?name=value` to the sim URL (none are defined yet).
  */
 
 import { logGlobal } from "scenerystack/phet-core";
 import { QueryStringMachine } from "scenerystack/query-string-machine";
 import FieldBoundaryNamespace from "../FieldBoundaryNamespace.js";
 
-const fieldBoundaryQueryParameters = QueryStringMachine.getAll({
-  /**
-   * Example public boolean parameter. Replace with real sim-specific parameters,
-   * or remove if the sim has none.
-   */
-  exampleToggle: {
-    type: "boolean",
-    defaultValue: false,
-    public: true,
-  },
-});
+const fieldBoundaryQueryParameters = QueryStringMachine.getAll({});
 
 FieldBoundaryNamespace.register("fieldBoundaryQueryParameters", fieldBoundaryQueryParameters);
 
