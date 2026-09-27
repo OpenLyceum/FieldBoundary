@@ -108,3 +108,16 @@ Optical rays / Fresnel / TIR; curved interfaces; time-harmonic waves.
 Not yet built: a **Predict mode** (hide the medium-2 arrows, let the student place a
 ghost vector, reveal with component-wise feedback). Nothing in the UI currently asks
 the student to commit to a prediction — see `doc/learning-goals.md`.
+
+## Testing
+
+Vitest on `happy-dom` with the template `tests/setup.ts`; tests live only under `tests/`.
+
+| Path | Covers |
+|---|---|
+| `tests/common/model/interfaceFields.test.ts` | unit tests |
+| `tests/common/view/angleArcs.test.ts` | unit tests |
+| `tests/common/view/transform.test.ts` | unit tests |
+| `tests/common/view/vectorLanes.test.ts` | unit tests |
+| `tests/memory-leak.test.ts` | `describeDisposalLeaks` over the sim's disposables (shared harness `tests/helpers/memoryLeak.ts`) |
+| `tests/fuzz/fuzz.spec.ts` | template fuzz smoke (pointer + keyboard, `?ea`) — `npm run test:fuzz` |
