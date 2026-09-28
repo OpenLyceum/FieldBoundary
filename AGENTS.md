@@ -12,15 +12,7 @@ relative permittivity / permeability to see which components stay continuous.
 UI borrows a two-media layout, material presets, protractor, and field-line
 toggle from that style of sim, but the physics is interface BCs.
 
-Learning goals: `doc/learning-goals.md` — read this before adding features.
 Physics notes: `doc/model.md`. Architecture: `doc/implementation-notes.md`.
-
-## Screens
-
-| Screen | Primary | Companion | Material param |
-|---|---|---|---|
-| Electric | \(\vec{E}\) | \(\vec{D}=\varepsilon_r\vec{E}\) | \(\varepsilon_r\) |
-| Magnetic | \(\vec{H}\) | \(\vec{B}=\mu_r\vec{H}\) | \(\mu_r\) |
 
 ## Key files
 
@@ -39,7 +31,16 @@ Physics notes: `doc/model.md`. Architecture: `doc/implementation-notes.md`.
 | Colors / strings | `FieldBoundaryColors.ts`, `src/i18n/StringManager.ts` |
 | Preferences | `src/preferences/` (Model, Node, QueryParameters) |
 
-## Model conventions
+### Screens
+
+| Screen | Primary | Companion | Material param |
+|---|---|---|---|
+| Electric | \(\vec{E}\) | \(\vec{D}=\varepsilon_r\vec{E}\) | \(\varepsilon_r\) |
+| Magnetic | \(\vec{H}\) | \(\vec{B}=\mu_r\vec{H}\) | \(\mu_r\) |
+
+## Model
+
+### Model conventions
 
 - \(\varepsilon_0=\mu_0=1\) in sim units; UI exposes relative \(\varepsilon_r\), \(\mu_r\).
 - \(\hat{n}=+\hat{y}\) from medium 2 into medium 1; tangential = \(x\).
@@ -72,15 +73,6 @@ Screen summaries live in `*ScreenSummaryContent.ts`; a11y strings under `a11y` i
 The "current details" region is a live `DerivedProperty` built in `currentDetails.ts` —
 keep it dynamic, or a non-visual student hears nothing about the fields themselves.
 
-## Commands
-
-```bash
-npm run lint && npm run check && npm run build
-npm test
-```
-
-`npm run release` runs `npm test` before the version bump, and `src/init.ts` reads `version` from `package.json`, so the About dialog always matches the release.
-
 ## Compliance carve-outs
 
 - **Hardcoded colors:** `rgba(255, 224, 130, 0.07)` fill on the flux-box outline in
@@ -101,14 +93,6 @@ open PRs that fight the overrides. Revisit when SceneryStack drops or re-pins th
 | `three` | `~0.125.2` | SceneryStack declares `^0.104.0`. Floor is 0.125.0 for GHSA-fq6p-x6j3-cmmq (ReDoS). Staying on the 0.125 line avoids a larger API jump; **0.125.x still has open CVEs** (e.g. XSS GHSA-7vvq-7r29-5vg3, fixed only in ≥0.137.0). Remove this override if/when SceneryStack stops depending on `three` or pins a patched line itself. LightPropagation keeps a higher `three` pin — do not force 0.125 there. |
 | `brace-expansion` | `~5.0.9` | Transitive via `vite-plugin-pwa` / Workbox. Clears npm audit (originally GHSA-mh99-v99m-4gvg; keep ≥5.0.9 for GHSA-rgw5-rvv9-x895). |
 
-## Non-goals (v1)
-
-Optical rays / Fresnel / TIR; curved interfaces; time-harmonic waves.
-
-Not yet built: a **Predict mode** (hide the medium-2 arrows, let the student place a
-ghost vector, reveal with component-wise feedback). Nothing in the UI currently asks
-the student to commit to a prediction — see `doc/learning-goals.md`.
-
 ## Testing
 
 Vitest on `happy-dom` with the template `tests/setup.ts`; tests live only under `tests/`.
@@ -121,3 +105,22 @@ Vitest on `happy-dom` with the template `tests/setup.ts`; tests live only under 
 | `tests/common/view/vectorLanes.test.ts` | unit tests |
 | `tests/memory-leak.test.ts` | `describeDisposalLeaks` over the sim's disposables (shared harness `tests/helpers/memoryLeak.ts`) |
 | `tests/fuzz/fuzz.spec.ts` | template fuzz smoke (pointer + keyboard, `?ea`) — `npm run test:fuzz` |
+
+## Commands
+
+```bash
+npm run lint && npm run check && npm run build
+npm test
+```
+
+`npm run release` runs `npm test` before the version bump, and `src/init.ts` reads `version` from `package.json`, so the About dialog always matches the release.
+
+## Development notes
+
+### Non-goals (v1)
+
+Optical rays / Fresnel / TIR; curved interfaces; time-harmonic waves.
+
+Not yet built: a **Predict mode** (hide the medium-2 arrows, let the student place a
+ghost vector, reveal with component-wise feedback). Nothing in the UI currently asks
+the student to commit to a prediction.
