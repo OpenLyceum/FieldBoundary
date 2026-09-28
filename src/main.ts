@@ -31,11 +31,13 @@ onReadyToLaunch(() => {
 
   const screens = [
     new ElectricScreen({
+      // The screen name Property updates automatically when the locale changes
       name: stringManager.getScreenNames().electricStringProperty,
       tandem: Tandem.ROOT.createTandem("electricScreen"),
       backgroundColorProperty: FieldBoundaryColors.backgroundColorProperty,
     }),
     new MagneticScreen({
+      // The screen name Property updates automatically when the locale changes
       name: stringManager.getScreenNames().magneticStringProperty,
       tandem: Tandem.ROOT.createTandem("magneticScreen"),
       backgroundColorProperty: FieldBoundaryColors.backgroundColorProperty,
