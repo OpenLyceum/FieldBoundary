@@ -11,6 +11,7 @@
  */
 import { DerivedProperty, MappedProperty, type Property, type TReadOnlyProperty } from "scenerystack/axon";
 import { Dimension2, Range } from "scenerystack/dot";
+import { StringUtils } from "scenerystack/phetcommon";
 import type { Color } from "scenerystack/scenery";
 import { type Node, Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
@@ -34,7 +35,7 @@ export type MediaControlPanelStrings = {
 
 /** ≤ 10 reads better with a decimal; above that the decimal is noise. */
 export function formatParameter(value: number): string {
-  return value < 10 ? value.toFixed(1) : Math.round(value).toString();
+  return value < 10 ? StringUtils.toFixedLTR(value, 1) : Math.round(value).toString();
 }
 
 export class MediaControlPanel extends FieldBoundaryPanel {

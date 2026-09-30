@@ -42,7 +42,8 @@ export class MagnitudeControlPanel extends FieldBoundaryPanel {
       sliderOptions: {
         trackSize: new Dimension2(120, 4),
         thumbSize: new Dimension2(14, 24),
-        pdomCreateAriaValueText: (value: number) => StringUtils.fillIn(valueTextPattern, { value: value.toFixed(1) }),
+        pdomCreateAriaValueText: (value: number) =>
+          StringUtils.fillIn(valueTextPattern, { value: StringUtils.toFixedLTR(value, 1) }),
       },
       accessibleName,
       accessibleHelpText,

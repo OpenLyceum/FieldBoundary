@@ -10,6 +10,7 @@
  * arrows, so a silent rescale rewards a false inference about |D| versus |E|.
  */
 import type { Vector2 } from "scenerystack/dot";
+import { StringUtils } from "scenerystack/phetcommon";
 
 /**
  * Largest factor ≤ 1 that keeps every vector in `scaled` within `headroom`
@@ -34,5 +35,5 @@ export function formatScaleBadge(scale: number): string {
   if (isUnityScale(scale)) {
     return "";
   }
-  return `×${scale < 0.01 ? scale.toExponential(1) : scale.toFixed(2)}`;
+  return `×${scale < 0.01 ? scale.toExponential(1) : StringUtils.toFixedLTR(scale, 2)}`;
 }

@@ -61,7 +61,7 @@ export class AngleReadoutNode extends Node {
       }),
     );
 
-    const formatDeg = (rad: number): string => ((rad * 180) / Math.PI).toFixed(1);
+    const formatDeg = (rad: number): string => StringUtils.toFixedLTR((rad * 180) / Math.PI, 1);
 
     Multilink.multilink(
       [
@@ -91,7 +91,7 @@ export class AngleReadoutNode extends Node {
         const defined = Math.abs(tan1) >= MIN_TAN;
         const tanRatio = defined ? tan2 / tan1 : Number.NaN;
 
-        ratioText.string = `${ratioLabel} = ${defined ? tanRatio.toFixed(2) : "—"}`;
+        ratioText.string = `${ratioLabel} = ${defined ? StringUtils.toFixedLTR(tanRatio, 2) : "—"}`;
 
         if (sourced) {
           // The identity holds only for σ_f = K_f = 0; say that rather than
@@ -102,7 +102,8 @@ export class AngleReadoutNode extends Node {
         } else {
           const matches = defined && Math.abs(tanRatio - paramRatio) <= MATCH_TOLERANCE * Math.abs(paramRatio);
           predictedText.string =
-            StringUtils.fillIn(predictedPattern, { value: paramRatio.toFixed(2) }) + (matches ? "  ✓" : "");
+            StringUtils.fillIn(predictedPattern, { value: StringUtils.toFixedLTR(paramRatio, 2) }) +
+            (matches ? "  ✓" : "");
           predictedText.fill = FieldBoundaryColors.textColorProperty;
           ratioText.fill = FieldBoundaryColors.accentColorProperty;
         }

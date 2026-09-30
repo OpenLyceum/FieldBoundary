@@ -51,8 +51,8 @@ export type MagneticDetailsStrings = {
   boundCurrent: TReadOnlyProperty<string>;
 };
 
-const deg = (field: Vector2): string => ((angleFromNormal(field) * 180) / Math.PI).toFixed(1);
-const num = (value: number): string => (Math.abs(value) < NEGLIGIBLE ? 0 : value).toFixed(2);
+const deg = (field: Vector2): string => StringUtils.toFixedLTR((angleFromNormal(field) * 180) / Math.PI, 1);
+const num = (value: number): string => StringUtils.toFixedLTR(Math.abs(value) < NEGLIGIBLE ? 0 : value, 2);
 
 export function createElectricDetailsProperty(
   e1Property: TReadOnlyProperty<Vector2>,

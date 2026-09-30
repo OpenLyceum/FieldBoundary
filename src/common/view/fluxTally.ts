@@ -5,7 +5,7 @@
  * Shared by the in-play box and its readout panel so both read one source.
  */
 import { DerivedProperty, type TReadOnlyProperty } from "scenerystack/axon";
-import type { Vector2 } from "scenerystack/dot";
+import { toFixed, type Vector2 } from "scenerystack/dot";
 import { amperianCirculation, type InterfaceBoxTally, pillboxFlux } from "../model/interfaceFields.js";
 
 export type FluxTallyMode = "electric" | "magnetic";
@@ -35,5 +35,5 @@ export function createFluxTallyProperty(
 /** Two-decimal signed formatting, with "0.00" instead of "-0.00". */
 export function formatTallyValue(value: number): string {
   const rounded = Math.abs(value) < 5e-3 ? 0 : value;
-  return rounded.toFixed(2);
+  return toFixed(rounded, 2);
 }
