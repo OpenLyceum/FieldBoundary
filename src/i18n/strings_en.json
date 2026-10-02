@@ -79,7 +79,9 @@
       "bNormal": "B₁ₙ = B₂ₙ",
       "hNormal": "H₁ₙ ≠ H₂ₙ",
       "bTangential": "B₁ₜ ≠ B₂ₜ",
-      "duality": "Duality with the other screen:  Eₜ ↔ Hₜ,  Dₙ ↔ Bₙ,  σ_f ↔ K_f,  P ↔ M"
+      "duality": "Duality with the other screen:  Eₜ ↔ Hₜ,  Dₙ ↔ Bₙ,  σ_f ↔ K_f,  P ↔ M",
+      "accessiblePattern": "{{title}}: {{terms}}. {{duality}}",
+      "termSeparator": "; "
     },
     "flux": {
       "electricTitle": "∮ D·dA over the pillbox",
@@ -103,14 +105,19 @@
       "magneticMedium2": "μᵣ₂ ≫ μᵣ₁ — flux funnelling: B₂ swings almost parallel to the interface and is channelled along medium 2. This is how magnetic shielding works.",
       "magneticMedium1": "μᵣ₁ ≫ μᵣ₂ — B₂ swings almost normal to the interface as the flux leaves the high-μ medium.",
       "magneticMatched": "Matched media (μᵣ₁ = μᵣ₂) — no kink at all: the field line crosses straight through."
-    }
+    },
+    "equationPattern": "{{symbol}} = {{value}}",
+    "matchMarkPattern": "{{text}}  ✓",
+    "angleParagraphPattern": "{{angles}} {{ratio}}. {{predicted}}"
   },
   "a11y": {
     "keyboardHelp": {
       "moveItemsHeading": "Move the field tip, protractor, and box",
       "materialListHeading": "Choose a material",
       "materialSingular": "material",
-      "materialPlural": "materials"
+      "materialPlural": "materials",
+      "protractorHeading": "Protractor",
+      "rotateProtractor": "Rotate the protractor"
     },
     "electric": {
       "screenSummary": {
@@ -195,6 +202,10 @@
         "fluxBox": "Amperian loop; move it along the interface",
         "fluxBoxHeight": "Loop height; collapse it toward the interface"
       }
+    },
+    "protractor": {
+      "accessibleName": "Protractor",
+      "helpText": "Move it with the arrow keys; rotate it with Q and E."
     }
   }
 }

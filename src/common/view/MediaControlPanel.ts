@@ -18,6 +18,7 @@ import { PhetFont } from "scenerystack/scenery-phet";
 import { ComboBox, type ComboBoxItem, HSlider } from "scenerystack/sun";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
 import { LOG_SLIDER_DECADES } from "../../FieldBoundaryConstants.js";
+import { StringManager } from "../../i18n/StringManager.js";
 import { FIELD_BOUNDARY_COMBO_BOX_OPTIONS, LIGHT_SURFACE_TEXT_FILL } from "../FieldBoundaryButtonOptions.js";
 import { FieldBoundaryPanel } from "../FieldBoundaryPanel.js";
 import type { MaterialPreset, MaterialPresetId } from "../model/MaterialPresets.js";
@@ -83,8 +84,12 @@ export class MediaControlPanel extends FieldBoundaryPanel {
 
     const readout = new Text(
       new DerivedProperty(
-        [parameterProperty, strings.parameter],
-        (value, symbol) => `${symbol} = ${formatParameter(value)}`,
+        [
+          parameterProperty,
+          strings.parameter,
+          StringManager.getInstance().getUiStrings().equationPatternStringProperty,
+        ],
+        (value, symbol, pattern) => StringUtils.fillIn(pattern, { symbol: symbol, value: formatParameter(value) }),
       ),
       { font: new PhetFont(13), fill: FieldBoundaryColors.textColorProperty },
     );

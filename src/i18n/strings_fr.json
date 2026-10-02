@@ -79,7 +79,9 @@
       "bNormal": "B₁ₙ = B₂ₙ",
       "hNormal": "H₁ₙ ≠ H₂ₙ",
       "bTangential": "B₁ₜ ≠ B₂ₜ",
-      "duality": "Dualité avec l'autre écran :  Eₜ ↔ Hₜ,  Dₙ ↔ Bₙ,  σ_f ↔ K_f,  P ↔ M"
+      "duality": "Dualité avec l'autre écran :  Eₜ ↔ Hₜ,  Dₙ ↔ Bₙ,  σ_f ↔ K_f,  P ↔ M",
+      "accessiblePattern": "{{title}} : {{terms}}. {{duality}}",
+      "termSeparator": "; "
     },
     "flux": {
       "electricTitle": "∮ D·dA sur la boîte",
@@ -103,14 +105,19 @@
       "magneticMedium2": "μᵣ₂ ≫ μᵣ₁ — canalisation du flux : B₂ bascule presque parallèlement à l'interface et est guidé le long du milieu 2. C'est le principe du blindage magnétique.",
       "magneticMedium1": "μᵣ₁ ≫ μᵣ₂ — B₂ bascule presque normalement à l'interface : le flux quitte le milieu à forte μ.",
       "magneticMatched": "Milieux identiques (μᵣ₁ = μᵣ₂) — aucun coude : la ligne de champ traverse tout droit."
-    }
+    },
+    "equationPattern": "{{symbol}} = {{value}}",
+    "matchMarkPattern": "{{text}}  ✓",
+    "angleParagraphPattern": "{{angles}} {{ratio}}. {{predicted}}"
   },
   "a11y": {
     "keyboardHelp": {
       "moveItemsHeading": "Déplacer la pointe du champ, le rapporteur et la boîte",
       "materialListHeading": "Choisir un matériau",
       "materialSingular": "matériau",
-      "materialPlural": "matériaux"
+      "materialPlural": "matériaux",
+      "protractorHeading": "Rapporteur",
+      "rotateProtractor": "Faire pivoter le rapporteur"
     },
     "electric": {
       "screenSummary": {
@@ -195,6 +202,10 @@
         "fluxBox": "Boucle d'Ampère ; déplacez-la le long de l'interface",
         "fluxBoxHeight": "Hauteur de la boucle ; aplatissez-la vers l'interface"
       }
+    },
+    "protractor": {
+      "accessibleName": "Rapporteur",
+      "helpText": "Déplacez-le avec les flèches ; faites-le pivoter avec Q et E."
     }
   }
 }

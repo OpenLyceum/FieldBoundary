@@ -79,7 +79,9 @@
       "bNormal": "B₁ₙ = B₂ₙ",
       "hNormal": "H₁ₙ ≠ H₂ₙ",
       "bTangential": "B₁ₜ ≠ B₂ₜ",
-      "duality": "Dualidad con la otra pantalla:  Eₜ ↔ Hₜ,  Dₙ ↔ Bₙ,  σ_f ↔ K_f,  P ↔ M"
+      "duality": "Dualidad con la otra pantalla:  Eₜ ↔ Hₜ,  Dₙ ↔ Bₙ,  σ_f ↔ K_f,  P ↔ M",
+      "accessiblePattern": "{{title}}: {{terms}}. {{duality}}",
+      "termSeparator": "; "
     },
     "flux": {
       "electricTitle": "∮ D·dA sobre la caja",
@@ -103,14 +105,19 @@
       "magneticMedium2": "μᵣ₂ ≫ μᵣ₁ — canalización del flujo: B₂ gira casi paralelo a la interfaz y se conduce a lo largo del medio 2. Así funciona el blindaje magnético.",
       "magneticMedium1": "μᵣ₁ ≫ μᵣ₂ — B₂ gira casi normal a la interfaz: el flujo abandona el medio de alta μ.",
       "magneticMatched": "Medios iguales (μᵣ₁ = μᵣ₂) — sin quiebre: la línea de campo cruza recta."
-    }
+    },
+    "equationPattern": "{{symbol}} = {{value}}",
+    "matchMarkPattern": "{{text}}  ✓",
+    "angleParagraphPattern": "{{angles}} {{ratio}}. {{predicted}}"
   },
   "a11y": {
     "keyboardHelp": {
       "moveItemsHeading": "Mover la punta del campo, el transportador y la caja",
       "materialListHeading": "Elegir un material",
       "materialSingular": "material",
-      "materialPlural": "materiales"
+      "materialPlural": "materiales",
+      "protractorHeading": "Transportador",
+      "rotateProtractor": "Girar el transportador"
     },
     "electric": {
       "screenSummary": {
@@ -195,6 +202,10 @@
         "fluxBox": "Espira de Ampère; muévela a lo largo de la interfaz",
         "fluxBoxHeight": "Altura de la espira; aplánala hacia la interfaz"
       }
+    },
+    "protractor": {
+      "accessibleName": "Transportador",
+      "helpText": "Muévelo con las flechas; gíralo con Q y E."
     }
   }
 }

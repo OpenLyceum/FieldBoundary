@@ -11,11 +11,16 @@
 import {
   BasicActionsKeyboardHelpSection,
   ComboBoxKeyboardHelpSection,
+  KeyboardHelpIconFactory,
+  KeyboardHelpSection,
+  KeyboardHelpSectionRow,
+  LetterKeyNode,
   MoveDraggableItemsKeyboardHelpSection,
   SliderControlsKeyboardHelpSection,
   TwoColumnKeyboardHelpContent,
 } from "scenerystack/scenery-phet";
 import { StringManager } from "../../i18n/StringManager.js";
+import FieldBoundaryHotkeyData from "./FieldBoundaryHotkeyData.js";
 
 export class FieldBoundaryKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   public constructor() {
@@ -25,6 +30,13 @@ export class FieldBoundaryKeyboardHelpContent extends TwoColumnKeyboardHelpConte
         new MoveDraggableItemsKeyboardHelpSection({
           headingStringProperty: a11y.moveItemsHeadingStringProperty,
         }),
+        new KeyboardHelpSection(a11y.protractorHeadingStringProperty, [
+          // Q and E have no entry in KeyboardHelpIconFactory's key map, so the row supplies
+          // its icon; the keys themselves still come from the HotkeyData.
+          KeyboardHelpSectionRow.fromHotkeyData(FieldBoundaryHotkeyData.ROTATE_PROTRACTOR, {
+            icon: KeyboardHelpIconFactory.iconOrIcon(new LetterKeyNode("Q"), new LetterKeyNode("E")),
+          }),
+        ]),
         new SliderControlsKeyboardHelpSection(),
       ],
       [

@@ -18,6 +18,7 @@ import { StringUtils } from "scenerystack/phetcommon";
 import { Node, Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
+import { StringManager } from "../../i18n/StringManager.js";
 import { angleFromNormal } from "../model/interfaceFields.js";
 
 /** Below this |tanθ₁| the ratio is numerically meaningless. */
@@ -61,6 +62,7 @@ export class AngleReadoutNode extends Node {
       }),
     );
 
+    const ui = StringManager.getInstance().getUiStrings();
     const formatDeg = (rad: number): string => StringUtils.toFixedLTR((rad * 180) / Math.PI, 1);
 
     Multilink.multilink(
@@ -73,16 +75,31 @@ export class AngleReadoutNode extends Node {
         strings.predictedPattern,
         strings.sourcedNote,
         strings.accessiblePattern,
+        ui.equationPatternStringProperty,
+        ui.matchMarkPatternStringProperty,
+        ui.angleParagraphPatternStringProperty,
       ],
-      (p1, p2, paramRatio, freeSource, ratioLabel, predictedPattern, sourcedNote, accessiblePattern) => {
+      (
+        p1,
+        p2,
+        paramRatio,
+        freeSource,
+        ratioLabel,
+        predictedPattern,
+        sourcedNote,
+        accessiblePattern,
+        equationPattern,
+        matchMarkPattern,
+        paragraphPattern,
+      ) => {
         const t1 = angleFromNormal(p1);
         const t2 = angleFromNormal(p2);
         // "°" reads well on screen but is announced inconsistently, so the
         // accessible pattern spells out "degrees" around the bare number.
         const theta1String = formatDeg(t1);
         const theta2String = formatDeg(t2);
-        theta1Text.string = `θ₁ = ${theta1String}°`;
-        theta2Text.string = `θ₂ = ${theta2String}°`;
+        theta1Text.string = StringUtils.fillIn(equationPattern, { symbol: "θ₁", value: `${theta1String}°` });
+        theta2Text.string = StringUtils.fillIn(equationPattern, { symbol: "θ₂", value: `${theta2String}°` });
 
         const tan1 = Math.tan(t1);
         const tan2 = Math.tan(t2);
@@ -91,7 +108,10 @@ export class AngleReadoutNode extends Node {
         const defined = Math.abs(tan1) >= MIN_TAN;
         const tanRatio = defined ? tan2 / tan1 : Number.NaN;
 
-        ratioText.string = `${ratioLabel} = ${defined ? StringUtils.toFixedLTR(tanRatio, 2) : "—"}`;
+        ratioText.string = StringUtils.fillIn(equationPattern, {
+          symbol: ratioLabel,
+          value: defined ? StringUtils.toFixedLTR(tanRatio, 2) : "—",
+        });
 
         if (sourced) {
           // The identity holds only for σ_f = K_f = 0; say that rather than
@@ -101,17 +121,17 @@ export class AngleReadoutNode extends Node {
           ratioText.fill = FieldBoundaryColors.freeComponentColorProperty;
         } else {
           const matches = defined && Math.abs(tanRatio - paramRatio) <= MATCH_TOLERANCE * Math.abs(paramRatio);
-          predictedText.string =
-            StringUtils.fillIn(predictedPattern, { value: StringUtils.toFixedLTR(paramRatio, 2) }) +
-            (matches ? "  ✓" : "");
+          const predicted = StringUtils.fillIn(predictedPattern, { value: StringUtils.toFixedLTR(paramRatio, 2) });
+          predictedText.string = matches ? StringUtils.fillIn(matchMarkPattern, { text: predicted }) : predicted;
           predictedText.fill = FieldBoundaryColors.textColorProperty;
           ratioText.fill = FieldBoundaryColors.accentColorProperty;
         }
 
-        this.accessibleParagraph = `${StringUtils.fillIn(accessiblePattern, {
-          theta1: theta1String,
-          theta2: theta2String,
-        })} ${ratioText.string}. ${predictedText.string}`;
+        this.accessibleParagraph = StringUtils.fillIn(paragraphPattern, {
+          angles: StringUtils.fillIn(accessiblePattern, { theta1: theta1String, theta2: theta2String }),
+          ratio: ratioText.string,
+          predicted: predictedText.string,
+        });
       },
     );
   }

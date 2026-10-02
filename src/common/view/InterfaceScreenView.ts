@@ -8,7 +8,7 @@ import { type BooleanProperty, Property, type TReadOnlyProperty } from "scenerys
 import { Bounds2, type Range, Vector2, Vector2Property } from "scenerystack/dot";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { ModelViewTransform2 } from "scenerystack/phetcommon";
-import { type Color, Node, Rectangle, RichDragListener, Text } from "scenerystack/scenery";
+import { type Color, KeyboardListener, Node, Rectangle, RichDragListener, Text } from "scenerystack/scenery";
 import { PhetFont, ProtractorNode, ResetAllButton } from "scenerystack/scenery-phet";
 import { ScreenView, type ScreenViewOptions } from "scenerystack/sim";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
@@ -32,6 +32,7 @@ import { BoundSourceNode } from "./BoundSourceNode.js";
 import type { ComponentOverlayMode } from "./ComponentOverlayNode.js";
 import { ComponentOverlayNode } from "./ComponentOverlayNode.js";
 import { EquationStripNode, type EquationStripStrings } from "./EquationStripNode.js";
+import FieldBoundaryHotkeyData from "./FieldBoundaryHotkeyData.js";
 import type { FieldBoundaryA11ySummaryStrings } from "./FieldBoundaryScreenSummaryContent.js";
 import { FieldBoundaryScreenSummaryContent } from "./FieldBoundaryScreenSummaryContent.js";
 import { FieldLinesNode } from "./FieldLinesNode.js";
@@ -45,6 +46,20 @@ import { LimitingCaseCalloutNode, type LimitingCaseCalloutStrings } from "./Limi
 import { MagnitudeControlPanel } from "./MagnitudeControlPanel.js";
 import { MediaControlPanel } from "./MediaControlPanel.js";
 import { ToolsControlPanel } from "./ToolsControlPanel.js";
+
+/** Protractor rotation per Q / E press, radians (5°). */
+const PROTRACTOR_ROTATION_STEP = Math.PI / 36;
+
+/** Inset of tags, readouts and panels from the play-area edges, px. */
+const PLAY_AREA_INSET = 8;
+/** Top of the angle readout, below the medium 1 tag, px from the play-area top. */
+const ANGLE_READOUT_TOP = 36;
+/** How far above the interface the limiting-case callout is anchored, px. */
+const LIMITING_CALLOUT_OFFSET_Y = 92;
+/** Gap between the play area and the control column, px. */
+const CONTROLS_GAP = 12;
+/** Vertical gap between stacked control panels, px. */
+const PANEL_SPACING = 10;
 
 export type InterfaceScreenViewConfig = {
   mode: ComponentOverlayMode;
@@ -261,14 +276,14 @@ export class InterfaceScreenView extends ScreenView {
     const medium1Tag = new Text(ui.medium1StringProperty, {
       font: new PhetFont({ size: 14, weight: "bold" }),
       fill: FieldBoundaryColors.textColorProperty,
-      left: playBounds.minX + 8,
-      top: playBounds.minY + 8,
+      left: playBounds.minX + PLAY_AREA_INSET,
+      top: playBounds.minY + PLAY_AREA_INSET,
     });
     const medium2Tag = new Text(ui.medium2StringProperty, {
       font: new PhetFont({ size: 14, weight: "bold" }),
       fill: FieldBoundaryColors.textColorProperty,
-      left: playBounds.minX + 8,
-      bottom: playBounds.maxY - 8,
+      left: playBounds.minX + PLAY_AREA_INSET,
+      bottom: playBounds.maxY - PLAY_AREA_INSET,
     });
     playLayer.addChild(medium1Tag);
     playLayer.addChild(medium2Tag);
@@ -276,11 +291,19 @@ export class InterfaceScreenView extends ScreenView {
     // ── Protractor ────────────────────────────────────────────────────────────
     // Constrained so it cannot be lost under the control panels, and restored by
     // Reset All (view.reset()).
+    const protractorA11y = StringManager.getInstance().getProtractorA11yStrings();
     this.protractor = new ProtractorNode({
       rotatable: true,
       scale: 0.55,
       cursor: "pointer",
       visibleProperty: config.shared.showProtractorProperty,
+
+      // Focusable, so its RichDragListener's keyboard drag (arrows/WASD) and the
+      // Q/E rotation below work without a pointer.
+      tagName: "div",
+      focusable: true,
+      accessibleName: protractorA11y.accessibleNameStringProperty,
+      accessibleHelpText: protractorA11y.helpTextStringProperty,
     });
     const protractorHome = modelViewTransform.modelToViewPosition(new Vector2(0, 0));
     this.protractorPositionProperty = new Vector2Property(protractorHome);
@@ -301,6 +324,17 @@ export class InterfaceScreenView extends ScreenView {
         // pointer-to-origin offset jumps the protractor on press.
         dragListenerOptions: {
           useParentOffset: true,
+        },
+      }),
+    );
+    // Q / E rotate the focused protractor (hold to keep turning).
+    const protractor = this.protractor;
+    this.protractor.addInputListener(
+      new KeyboardListener({
+        keyStringProperties: FieldBoundaryHotkeyData.ROTATE_PROTRACTOR.keyStringProperties,
+        fireOnHold: true,
+        fire: (_event, keysPressed) => {
+          protractor.angleProperty.value += keysPressed === "q" ? -PROTRACTOR_ROTATION_STEP : PROTRACTOR_ROTATION_STEP;
         },
       }),
     );
@@ -325,12 +359,12 @@ export class InterfaceScreenView extends ScreenView {
       config.freeSourceProperty,
       config.angleReadout,
     );
-    angleReadout.left = playBounds.minX + 8;
-    angleReadout.top = playBounds.minY + 36;
+    angleReadout.left = playBounds.minX + PLAY_AREA_INSET;
+    angleReadout.top = playBounds.minY + ANGLE_READOUT_TOP;
     playLayer.addChild(angleReadout);
 
     const limitingCallout = new LimitingCaseCalloutNode(
-      new Vector2(playBounds.centerX, modelViewTransform.modelToViewY(0) - 92),
+      new Vector2(playBounds.centerX, modelViewTransform.modelToViewY(0) - LIMITING_CALLOUT_OFFSET_Y),
       config.param1Property,
       config.param2Property,
       config.limitingCase,
@@ -348,8 +382,8 @@ export class InterfaceScreenView extends ScreenView {
     this.addChild(equationStrip);
 
     const fluxTallyPanel = new FluxTallyPanel(tallyProperty, config.shared.fluxBox.showProperty, config.fluxTally);
-    fluxTallyPanel.left = playBounds.minX + 8;
-    fluxTallyPanel.bottom = medium2Tag.top - 8;
+    fluxTallyPanel.left = playBounds.minX + PLAY_AREA_INSET;
+    fluxTallyPanel.bottom = medium2Tag.top - PLAY_AREA_INSET;
     this.addChild(fluxTallyPanel);
 
     const listParent = new Node();
@@ -375,8 +409,8 @@ export class InterfaceScreenView extends ScreenView {
       listParent,
       { fill: FieldBoundaryColors.translucentPanelBackgroundColorProperty },
     );
-    medium1Panel.right = playRight - 8;
-    medium1Panel.top = playBounds.minY + 8;
+    medium1Panel.right = playRight - PLAY_AREA_INSET;
+    medium1Panel.top = playBounds.minY + PLAY_AREA_INSET;
     this.addChild(medium1Panel);
 
     const medium2Panel = new MediaControlPanel(
@@ -397,8 +431,8 @@ export class InterfaceScreenView extends ScreenView {
       listParent,
       { fill: FieldBoundaryColors.translucentPanelBackgroundColorProperty },
     );
-    medium2Panel.right = playRight - 8;
-    medium2Panel.bottom = playBounds.maxY - 8;
+    medium2Panel.right = playRight - PLAY_AREA_INSET;
+    medium2Panel.bottom = playBounds.maxY - PLAY_AREA_INSET;
     this.addChild(medium2Panel);
 
     // Above the medium panels: at large magnitude the field tip reaches into the
@@ -407,7 +441,7 @@ export class InterfaceScreenView extends ScreenView {
     // underneath keep their own clicks.
     this.addChild(vectors);
 
-    const controlsLeft = playRight + 12;
+    const controlsLeft = playRight + CONTROLS_GAP;
     const magnitudePanel = new MagnitudeControlPanel(
       config.primaryMagnitudeProperty,
       config.magnitudeLabel,
@@ -429,7 +463,7 @@ export class InterfaceScreenView extends ScreenView {
       a11y.controls.freeSourceValueStringProperty,
     );
     freeSourcePanel.left = controlsLeft;
-    freeSourcePanel.top = magnitudePanel.bottom + 10;
+    freeSourcePanel.top = magnitudePanel.bottom + PANEL_SPACING;
     this.addChild(freeSourcePanel);
 
     const toolsPanel = new ToolsControlPanel(
@@ -456,7 +490,7 @@ export class InterfaceScreenView extends ScreenView {
       a11y.controls.toolsHeadingStringProperty,
     );
     toolsPanel.left = controlsLeft;
-    toolsPanel.top = freeSourcePanel.bottom + 10;
+    toolsPanel.top = freeSourcePanel.bottom + PANEL_SPACING;
     this.addChild(toolsPanel);
 
     // The unit convention is otherwise only in doc/model.md, which students do
@@ -467,7 +501,7 @@ export class InterfaceScreenView extends ScreenView {
       maxWidth: PLAY_AREA_RIGHT_GUTTER - 32,
     });
     unitsNote.left = controlsLeft;
-    unitsNote.top = toolsPanel.bottom + 10;
+    unitsNote.top = toolsPanel.bottom + PANEL_SPACING;
     this.addChild(unitsNote);
 
     // Combo lists above panels
@@ -492,20 +526,17 @@ export class InterfaceScreenView extends ScreenView {
       );
     });
 
-    this.addChild(
-      new Node({
-        pdomOrder: [
-          vectors.dragHandle,
-          ...fluxBoxNode.focusTargets,
-          medium1Panel,
-          medium2Panel,
-          magnitudePanel,
-          freeSourcePanel,
-          toolsPanel,
-          resetAllButton,
-        ],
-      }),
-    );
+    // Interactive objects go under the "Play Area" heading and the controls under
+    // "Control Area", so the screen reader's structure separates the two.
+    this.pdomPlayAreaNode.pdomOrder = [vectors.dragHandle, this.protractor, ...fluxBoxNode.focusTargets];
+    this.pdomControlAreaNode.pdomOrder = [
+      medium1Panel,
+      medium2Panel,
+      magnitudePanel,
+      freeSourcePanel,
+      toolsPanel,
+      resetAllButton,
+    ];
   }
 
   public reset(): void {

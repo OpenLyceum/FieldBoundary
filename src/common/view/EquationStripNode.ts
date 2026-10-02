@@ -13,9 +13,11 @@
  * every slider tick leaked Text nodes still holding string-Property listeners.
  */
 import { DerivedProperty, type Property, type TReadOnlyProperty } from "scenerystack/axon";
+import { StringUtils } from "scenerystack/phetcommon";
 import { HBox, Node, Rectangle, Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
+import { StringManager } from "../../i18n/StringManager.js";
 
 export type EquationStripStrings = {
   /** Title when the free source is zero. */
@@ -103,6 +105,7 @@ export class EquationStripNode extends Node {
     showComponentsProperty.link(applyOpacity);
 
     // The strip is the sim's thesis statement; it needs to reach assistive tech.
+    const equationStrings = StringManager.getInstance().getUiStrings().equations;
     const accessibleStringProperty = new DerivedProperty(
       [
         titleStringProperty,
@@ -113,9 +116,15 @@ export class EquationStripNode extends Node {
         strings.discontinuousTerm1,
         strings.discontinuousTerm2,
         strings.duality,
+        equationStrings.accessiblePatternStringProperty,
+        equationStrings.termSeparatorStringProperty,
       ],
-      (titleString, sourced, continuous, conditionalTerm, jumpTerm, disc1, disc2, duality) =>
-        `${titleString}: ${[continuous, sourced ? jumpTerm : conditionalTerm, disc1, disc2].join("; ")}. ${duality}`,
+      (titleString, sourced, continuous, conditionalTerm, jumpTerm, disc1, disc2, duality, pattern, separator) =>
+        StringUtils.fillIn(pattern, {
+          title: titleString,
+          terms: [continuous, sourced ? jumpTerm : conditionalTerm, disc1, disc2].join(separator),
+          duality: duality,
+        }),
     );
     this.accessibleParagraph = accessibleStringProperty;
 

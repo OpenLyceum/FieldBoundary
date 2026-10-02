@@ -26,6 +26,11 @@ import {
 import { displayScale, formatScaleBadge } from "./displayScale.js";
 import { COMPANION_LANE, laneOffset, PRIMARY_LANE } from "./vectorLanes.js";
 
+/** Radius of the field-tip drag knob, and how far its touch and mouse areas reach past it, px. */
+const KNOB_RADIUS = 10;
+const KNOB_TOUCH_DILATION = 10;
+const KNOB_MOUSE_DILATION = 4;
+
 export type BoundaryVectorsNodeOptions = {
   primaryProperty: TReadOnlyProperty<Vector2>;
   companionProperty: TReadOnlyProperty<Vector2>;
@@ -98,7 +103,7 @@ export class BoundaryVectorsNode extends Node {
     const c1ScaleBadge = new Text("", { font: badgeFont, fill: options.companionColorProperty });
     const c2ScaleBadge = new Text("", { font: badgeFont, fill: options.companionColorProperty });
 
-    const knob = new Circle(10, {
+    const knob = new Circle(KNOB_RADIUS, {
       cursor: "pointer",
       fill: options.primaryColorProperty,
       stroke: FieldBoundaryColors.dragKnobStrokeProperty,
@@ -108,6 +113,9 @@ export class BoundaryVectorsNode extends Node {
       accessibleName: options.dragAccessibleName,
     });
 
+    // The drawn knob is small; a larger target makes it easy to grab by touch.
+    knob.touchArea = knob.localBounds.dilated(KNOB_TOUCH_DILATION);
+    knob.mouseArea = knob.localBounds.dilated(KNOB_MOUSE_DILATION);
     this.dragHandle = knob;
     // Only the knob takes input. This layer is drawn ABOVE the medium panels so
     // the tip stays grabbable at large magnitude (it otherwise lands under the

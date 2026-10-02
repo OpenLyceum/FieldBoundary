@@ -92,6 +92,18 @@ enclosed free source.
   `accessibleParagraph`; sliders carry `accessibleHelpText` and
   `pdomCreateAriaValueText` so a value is announced with its quantity and unit.
 - A component in medium 2 reversing direction fires an `addAccessibleResponse`.
+- Traversal order is set on `pdomPlayAreaNode` (field tip, protractor, flux box) and
+  `pdomControlAreaNode` (panels, Reset All), so the Play Area and Control Area headings
+  each hold their own content.
+- The protractor is focusable: arrows/WASD move it (its `RichDragListener`) and Q / E
+  rotate it (`FieldBoundaryHotkeyData.ROTATE_PROTRACTOR`, also shown in keyboard help).
+
+## Object lifetime
+
+The models dispose properly (see Testing). The views do not: each screen's view and every node,
+`DerivedProperty` and `Multilink` in it are built once and live as long as the sim, linking only to
+objects that are torn down with them (never), so the view classes have no `dispose()`. Nodes created
+and removed at runtime would need cleanup; this sim has none.
 
 ## Testing
 

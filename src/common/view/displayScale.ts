@@ -10,6 +10,7 @@
  * arrows, so a silent rescale rewards a false inference about |D| versus |E|.
  */
 import type { Vector2 } from "scenerystack/dot";
+import { toFixed } from "scenerystack/dot";
 import { StringUtils } from "scenerystack/phetcommon";
 
 /**
@@ -35,5 +36,17 @@ export function formatScaleBadge(scale: number): string {
   if (isUnityScale(scale)) {
     return "";
   }
-  return `×${scale < 0.01 ? scale.toExponential(1) : StringUtils.toFixedLTR(scale, 2)}`;
+  if (scale >= 0.01) {
+    return `×${StringUtils.toFixedLTR(scale, 2)}`;
+  }
+
+  // Tiny scales in e-notation ("×2.5e-3"), built with dot's toFixed rather than
+  // the native toExponential.
+  let exponent = Math.floor(Math.log10(scale));
+  let mantissa = Number(toFixed(scale / 10 ** exponent, 1));
+  if (mantissa >= 10) {
+    mantissa /= 10;
+    exponent += 1;
+  }
+  return `×${toFixed(mantissa, 1)}e${exponent}`;
 }

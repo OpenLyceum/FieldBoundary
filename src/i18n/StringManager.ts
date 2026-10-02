@@ -106,6 +106,11 @@ export class StringManager {
     return stringProperties.a11y.keyboardHelp;
   }
 
+  /** Accessible name and help text for the protractor. */
+  public getProtractorA11yStrings() {
+    return stringProperties.a11y.protractor;
+  }
+
   /** Preferences → Simulation labels. */
   public getPreferences() {
     return stringProperties.preferences;
