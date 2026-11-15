@@ -27,6 +27,7 @@ const MIN_ARC_ANGLE = (2 * Math.PI) / 180;
 /**
  * Canvas / view angle of the medium-1 field ray (0 = +x, +angle toward +y,
  * which is down on screen). Equals θ − π/2, so θ = 0 sits on the upward normal.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export function medium1ViewAngle(theta: number): number {
   return theta - Math.PI / 2;
@@ -35,6 +36,7 @@ export function medium1ViewAngle(theta: number): number {
 /**
  * Canvas / view angle of the medium-2 field body leaving the origin into
  * medium 2 (along −field). Equals π/2 + θ, so θ = 0 sits on the downward normal.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export function medium2ViewAngle(theta: number): number {
   return Math.PI / 2 + theta;
@@ -44,6 +46,7 @@ export function medium2ViewAngle(theta: number): number {
  * `Shape.arc` anticlockwise flag for the *short* wedge from the normal to the
  * field. Canvas angles increase clockwise, so θ > 0 (field angle greater than
  * the normal's) uses the clockwise arc.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export function shortArcAnticlockwise(theta: number): boolean {
   return theta < 0;

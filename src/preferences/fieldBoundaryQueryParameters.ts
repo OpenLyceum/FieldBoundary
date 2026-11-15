@@ -24,5 +24,3 @@ FieldBoundaryNamespace.register("fieldBoundaryQueryParameters", fieldBoundaryQue
 
 // Log query parameters (for the console / PhET-iO).
 logGlobal("phet.chipper.queryParameters");
-
-export default fieldBoundaryQueryParameters;

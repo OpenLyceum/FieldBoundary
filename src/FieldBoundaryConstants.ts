@@ -13,8 +13,10 @@ import FieldBoundaryNamespace from "./FieldBoundaryNamespace.js";
  * ScreenView.DEFAULT_LAYOUT_BOUNDS, duplicated as plain numbers so the model
  * space can be derived from it without importing the (DOM-heavy) joist module
  * into the model layer. `InterfaceScreenView` asserts the two agree.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export const LAYOUT_WIDTH = 1024;
+/** @internal Exported for unit tests; not part of the application API. */
 export const LAYOUT_HEIGHT = 618;
 
 /** Margin between the screen edge and edge-anchored controls (e.g. Reset All). */

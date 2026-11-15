@@ -60,6 +60,7 @@ export function refractElectric(
 /**
  * Polarization in a linear dielectric: P = (εᵣ − 1) E  (ε₀ = 1).
  * Vacuum (εᵣ = 1) has P = 0.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export function polarization(e: Vector2, eps: number): Vector2 {
   return e.timesScalar(eps - 1);
@@ -69,6 +70,7 @@ export function polarization(e: Vector2, eps: number): Vector2 {
  * Bound surface charge on the interface with n̂ from medium 2 → 1:
  *   σ_b = P₁ₙ − P₂ₙ
  * Related identity: E₁ₙ − E₂ₙ = σ_f − σ_b  (and D₁ₙ − D₂ₙ = σ_f).
+ * @internal Exported for unit tests; not part of the application API.
  */
 export function boundSurfaceCharge(p1: Vector2, p2: Vector2): number {
   return p1.y - p2.y;
@@ -106,6 +108,7 @@ export function refractMagnetic(
 /**
  * Magnetization in a linear magnetic medium: M = (μᵣ − 1) H  (μ₀ = 1).
  * Vacuum / air (μᵣ = 1) has M = 0. Dual of `polarization`.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export function magnetization(h: Vector2, mu: number): Vector2 {
   return h.timesScalar(mu - 1);
@@ -119,6 +122,7 @@ export function magnetization(h: Vector2, mu: number): Vector2 {
  * Dual of σ_b = P₁ₙ − P₂ₙ. Related identity: B₂ₜ − B₁ₜ = K_f + K_b, i.e. the
  * tangential B jump is the total (free + bound) surface current, exactly as the
  * normal E jump is the total (free + bound) surface charge.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export function boundSurfaceCurrent(m1: Vector2, m2: Vector2): number {
   return m2.x - m1.x;
