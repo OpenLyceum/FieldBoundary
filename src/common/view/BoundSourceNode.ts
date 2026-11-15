@@ -36,7 +36,7 @@ const MAX_MARKERS = 9;
 /** View-pixel offset of bound glyphs above the interface (away from the free source). */
 const BOUND_GLYPH_Y_OFFSET = 16;
 
-export type BoundSourceMode = "electric" | "magnetic";
+type BoundSourceMode = "electric" | "magnetic";
 
 export type BoundSourceNodeOptions = {
   mode: BoundSourceMode;

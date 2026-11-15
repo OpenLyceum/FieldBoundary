@@ -35,7 +35,7 @@ export type MediaControlPanelStrings = {
 };
 
 /** ≤ 10 reads better with a decimal; above that the decimal is noise. */
-export function formatParameter(value: number): string {
+function formatParameter(value: number): string {
   return value < 10 ? StringUtils.toFixedLTR(value, 1) : Math.round(value).toString();
 }
 

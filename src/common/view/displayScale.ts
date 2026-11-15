@@ -24,7 +24,7 @@ export function displayScale(scaled: readonly Vector2[], reference: readonly Vec
 }
 
 /** True when the scale factor is close enough to 1 that no badge is warranted. */
-export function isUnityScale(scale: number): boolean {
+function isUnityScale(scale: number): boolean {
   return scale > 0.995;
 }
 

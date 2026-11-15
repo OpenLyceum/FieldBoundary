@@ -22,7 +22,7 @@ import FieldBoundaryColors from "../../FieldBoundaryColors.js";
 import { CALLOUT_DURATION_MS, LIMITING_CASE_RATIO } from "../../FieldBoundaryConstants.js";
 
 /** Which regime the material ratio is currently in. */
-export type LimitingCase = "none" | "medium2Dominant" | "medium1Dominant" | "matched";
+type LimitingCase = "none" | "medium2Dominant" | "medium1Dominant" | "matched";
 
 export type LimitingCaseCalloutStrings = {
   /** ε₂ ≫ ε₁ / μ₂ ≫ μ₁. */
@@ -34,7 +34,7 @@ export type LimitingCaseCalloutStrings = {
 };
 
 /** Classify a material ratio (param2 / param1) into a named regime. */
-export function classifyLimitingCase(param1: number, param2: number): LimitingCase {
+function classifyLimitingCase(param1: number, param2: number): LimitingCase {
   const ratio = param2 / param1;
   if (Math.abs(ratio - 1) < 1e-6) {
     return "matched";
