@@ -49,7 +49,7 @@ export class AngleReadoutNode extends Node {
   ) {
     super({ visibleProperty, tagName: "div" });
 
-    const font = new PhetFont(ANGLE_READOUT_NODE_SETTINGS.FONT_FONT_SIZE);
+    const font = new PhetFont(ANGLE_READOUT_NODE_SETTINGS.FONT_SIZE);
     const theta1Text = new Text("", { font, fill: FieldBoundaryColors.textColorProperty });
     const theta2Text = new Text("", { font, fill: FieldBoundaryColors.textColorProperty });
     const ratioText = new Text("", { font, fill: FieldBoundaryColors.accentColorProperty });

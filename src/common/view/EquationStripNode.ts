@@ -47,7 +47,7 @@ export class EquationStripNode extends Node {
   ) {
     super({ tagName: "div" });
 
-    const font = new PhetFont({ size: EQUATION_STRIP_NODE_SETTINGS.FONT_FONT_SIZE });
+    const font = new PhetFont({ size: EQUATION_STRIP_NODE_SETTINGS.FONT_SIZE });
     const highlightFont = new PhetFont({ size: EQUATION_STRIP_NODE_SETTINGS.HIGHLIGHT_FONT_SIZE, weight: "bold" });
 
     const sourcedProperty = new DerivedProperty([freeSourceProperty], (s) => Math.abs(s) >= 1e-9);
@@ -150,7 +150,7 @@ export class EquationStripNode extends Node {
 
     content.boundsProperty.link((bounds) => {
       background.setRect(0, 0, bounds.width + 24, bounds.height + 12);
-      content.left = EQUATION_STRIP_NODE_SETTINGS.LEFT_LEFT;
+      content.left = EQUATION_STRIP_NODE_SETTINGS.CONTENT_LEFT;
       content.centerY = background.centerY;
     });
 

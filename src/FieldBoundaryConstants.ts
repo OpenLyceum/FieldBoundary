@@ -219,8 +219,8 @@ export const ANGLE_READOUT_NODE_SETTINGS = {
   MIN_TAN: 1e-3,
   /** Relative agreement counted as "matches the prediction". */
   MATCH_TOLERANCE: 0.02,
-  /** Font font size (px). */
-  FONT_FONT_SIZE: 14,
+  /** Font size (px). */
+  FONT_SIZE: 14,
   /** Predicted text font size (px). */
   PREDICTED_TEXT_FONT_SIZE: 12,
   /** Constructor spacing (px). */
@@ -239,7 +239,7 @@ export const BOUND_SOURCE_NODE_SETTINGS = {
   LABEL2_X_OFFSET: -10, // px
   LABEL2_Y_OFFSET: 4, // px
 
-  /** Max markers (px). */
+  /** Max markers (count). */
   MAX_MARKERS: 9,
   /** View-pixel offset of bound glyphs above the interface (away from the free source). */
   BOUND_GLYPH_Y_OFFSET: 16,
@@ -247,7 +247,7 @@ export const BOUND_SOURCE_NODE_SETTINGS = {
   ARROW_OPTIONS_LINE_WIDTH: 1.5,
   /** Label font size (px). */
   LABEL_FONT_SIZE: 14,
-  /** Scale badge font size (dimensionless). */
+  /** Scale badge font size (px). */
   SCALE_BADGE_FONT_SIZE: 11,
   /** Source label font size (px). */
   SOURCE_LABEL_FONT_SIZE: 13,
@@ -288,8 +288,8 @@ export const COMPONENT_OVERLAY_NODE_SETTINGS = {
   ET_LABEL_Y_OFFSET: -5, // px
   DN_LABEL_X_OFFSET: 7, // px
 
-  /** Font font size (px). */
-  FONT_FONT_SIZE: 13,
+  /** Font size (px). */
+  FONT_SIZE: 13,
   /** Make line line width (px). */
   MAKE_LINE_LINE_WIDTH: 1.5,
 } as const;
@@ -298,8 +298,8 @@ export const COMPONENT_OVERLAY_NODE_SETTINGS = {
 export const EQUATION_STRIP_NODE_SETTINGS = {
   CONTENT_ITEM_1_SPACING: 18, // px
 
-  /** Font font size (px). */
-  FONT_FONT_SIZE: 15,
+  /** Font size (px). */
+  FONT_SIZE: 15,
   /** Highlight font size (px). */
   HIGHLIGHT_FONT_SIZE: 15,
   /** Title font size (px). */
@@ -316,14 +316,14 @@ export const EQUATION_STRIP_NODE_SETTINGS = {
   BACKGROUND_HEIGHT: 10,
   /** Background corner radius (px). */
   BACKGROUND_CORNER_RADIUS: 6,
-  /** Left left (px). */
-  LEFT_LEFT: 12,
+  /** Left inset for equation content inside the strip (px). */
+  CONTENT_LEFT: 12,
 } as const;
 
 /** Settings for common/view/FieldLinesNode.ts. */
 export const FIELD_LINES_NODE_SETTINGS = {
-  /** Line width line width (px). */
-  LINE_WIDTH_LINE_WIDTH: 1.5,
+  /** Field-line stroke width (px). */
+  LINE_WIDTH: 1.5,
 } as const;
 
 /** Settings for common/view/FluxBoxNode.ts. */
@@ -389,7 +389,7 @@ export const FREE_SOURCE_CONTROL_PANEL_SETTINGS = {
 
 /** Settings for common/view/FreeSourceOverlayNode.ts. */
 export const FREE_SOURCE_OVERLAY_NODE_SETTINGS = {
-  /** Max markers (px). */
+  /** Max markers (count). */
   MAX_MARKERS: 9,
 } as const;
 

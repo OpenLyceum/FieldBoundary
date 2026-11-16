@@ -54,7 +54,7 @@ export class FieldLinesNode extends CanvasNode {
     const mvt = this.modelViewTransform;
 
     context.strokeStyle = FieldBoundaryColors.fieldLineColorProperty.value.toCSS();
-    context.lineWidth = FIELD_LINES_NODE_SETTINGS.LINE_WIDTH_LINE_WIDTH;
+    context.lineWidth = FIELD_LINES_NODE_SETTINGS.LINE_WIDTH;
     context.globalAlpha = 0.75;
 
     const xMin = -MODEL_HALF_WIDTH * 0.92;

@@ -29,6 +29,7 @@ Physics notes: `doc/model.md`. Architecture: `doc/implementation-notes.md`.
 | Play-area nodes | `src/common/view/` (`InterfaceBackgroundNode`, `BoundaryVectorsNode`, `ComponentOverlayNode`, `FieldLinesNode`, `FreeSourceOverlayNode`, `BoundSourceNode`, `LimitingCaseCalloutNode`, `FreeSourceControlPanel`, …) |
 | Shared helpers | `displayScale.ts` (secondary-arrow scaling + badge), `interfaceMarkers.ts` (charge / current glyphs), `currentDetails.ts` (live a11y description) |
 | Colors / strings | `FieldBoundaryColors.ts`, `src/i18n/StringManager.ts` |
+| Constants (SI + layout px) | `src/FieldBoundaryConstants.ts` |
 | Preferences | Framework-only (`PreferencesModel` in `main.ts`; no sim-specific prefs yet) |
 
 ### Screens

@@ -58,7 +58,7 @@ export class ComponentOverlayNode extends Node {
     super({ visibleProperty });
 
     const originView = modelViewTransform.modelToViewPosition(new Vector2(0, 0));
-    const font = new PhetFont(COMPONENT_OVERLAY_NODE_SETTINGS.FONT_FONT_SIZE);
+    const font = new PhetFont(COMPONENT_OVERLAY_NODE_SETTINGS.FONT_SIZE);
 
     const makeLine = (): Line =>
       new Line(0, 0, 0, 0, {
