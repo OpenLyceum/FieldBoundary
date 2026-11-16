@@ -194,6 +194,14 @@ const FieldBoundaryColors = {
     default: "rgba(0,0,0,0.53)",
     projector: "rgba(0,0,0,0.53)",
   }),
+
+  // ── Moved from views (no-inline-color) ─────────────────────────────────────
+
+  /** Faint tint inside the draggable flux box. */
+  fluxBoxFillProperty: new ProfileColorProperty(FieldBoundaryNamespace, "fluxBoxFill", {
+    default: "rgba(255, 224, 130, 0.07)",
+    projector: "rgba(255, 224, 130, 0.07)",
+  }),
 };
 
 export default FieldBoundaryColors;
