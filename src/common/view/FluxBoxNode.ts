@@ -19,7 +19,7 @@ import type { ModelViewTransform2 } from "scenerystack/phetcommon";
 import { Circle, Node, Rectangle, RichDragListener, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
-import { FLUX_BOX_HALF_HEIGHT_RANGE } from "../../FieldBoundaryConstants.js";
+import { FLUX_BOX_HALF_HEIGHT_RANGE, FLUX_BOX_NODE_SETTINGS } from "../../FieldBoundaryConstants.js";
 import { FLUX_BOX_CENTER_X_RANGE, type FluxBoxModel } from "../model/FluxBoxModel.js";
 import type { InterfaceBoxTally } from "../model/interfaceFields.js";
 import { formatTallyValue } from "./fluxTally.js";
@@ -45,8 +45,11 @@ export class FluxBoxNode extends Node {
 
     const outline = new Rectangle(0, 0, 1, 1, {
       stroke: FieldBoundaryColors.fluxBoxStrokeProperty,
-      lineWidth: 2,
-      lineDash: [6, 4],
+      lineWidth: FLUX_BOX_NODE_SETTINGS.OUTLINE_LINE_WIDTH,
+      lineDash: [
+        FLUX_BOX_NODE_SETTINGS.OUTLINE_LINE_DASH_DASH,
+        FLUX_BOX_NODE_SETTINGS.CONSTRUCTOR_OUTLINE_LINE_DASH_DASH,
+      ],
       fill: "rgba(255, 224, 130, 0.07)",
       cursor: "pointer",
       tagName: "div",
@@ -54,7 +57,7 @@ export class FluxBoxNode extends Node {
       accessibleName: strings.boxAccessibleName,
     });
 
-    const heightHandle = new Circle(7, {
+    const heightHandle = new Circle(FLUX_BOX_NODE_SETTINGS.HEIGHT_HANDLE_RADIUS, {
       fill: FieldBoundaryColors.fluxBoxStrokeProperty,
       stroke: FieldBoundaryColors.dragKnobStrokeProperty,
       lineWidth: 1,
@@ -64,18 +67,18 @@ export class FluxBoxNode extends Node {
       accessibleName: strings.heightAccessibleName,
     });
 
-    const valueFont = new PhetFont({ size: 12, weight: "bold" });
+    const valueFont = new PhetFont({ size: FLUX_BOX_NODE_SETTINGS.VALUE_FONT_SIZE, weight: "bold" });
     const makeValue = (): Text =>
       new Text("", { font: valueFont, fill: FieldBoundaryColors.fluxBoxStrokeProperty, pickable: false });
     const topValue = makeValue();
     const bottomValue = makeValue();
     const rightValue = new Text("", {
-      font: new PhetFont(11),
+      font: new PhetFont(FLUX_BOX_NODE_SETTINGS.RIGHT_VALUE_FONT_SIZE),
       fill: FieldBoundaryColors.fluxBoxAccentProperty,
       pickable: false,
     });
     const leftValue = new Text("", {
-      font: new PhetFont(11),
+      font: new PhetFont(FLUX_BOX_NODE_SETTINGS.LEFT_VALUE_FONT_SIZE),
       fill: FieldBoundaryColors.fluxBoxAccentProperty,
       pickable: false,
     });
@@ -162,8 +165,10 @@ export class FluxBoxNode extends Node {
 
     // Keep the handle grabbable even when the box is nearly collapsed.
     fluxBox.halfHeightProperty.link(() => {
-      heightHandle.touchArea = heightHandle.localBounds.dilated(8);
-      heightHandle.mouseArea = heightHandle.localBounds.dilated(4);
+      heightHandle.touchArea = heightHandle.localBounds.dilated(FLUX_BOX_NODE_SETTINGS.HEIGHT_HANDLE_DILATION);
+      heightHandle.mouseArea = heightHandle.localBounds.dilated(
+        FLUX_BOX_NODE_SETTINGS.HEIGHT_HANDLE_DILATION_SEGMENT_2,
+      );
     });
   }
 }

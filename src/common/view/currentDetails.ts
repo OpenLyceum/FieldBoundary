@@ -14,10 +14,11 @@
 import { DerivedProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import type { Vector2 } from "scenerystack/dot";
 import { StringUtils } from "scenerystack/phetcommon";
+import { CURRENT_DETAILS_SETTINGS } from "../../FieldBoundaryConstants.js";
 import { angleFromNormal } from "../model/interfaceFields.js";
 
 /** Below this a source or bound density counts as zero for description purposes. */
-const NEGLIGIBLE = 5e-3;
+const NEGLIGIBLE: number = CURRENT_DETAILS_SETTINGS.NEGLIGIBLE;
 
 export type ElectricDetailsStrings = {
   /** "{{theta1}} … {{theta2}}" */

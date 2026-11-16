@@ -17,6 +17,7 @@ import { StringUtils } from "scenerystack/phetcommon";
 import { HBox, Node, Rectangle, Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
+import { EQUATION_STRIP_NODE_SETTINGS } from "../../FieldBoundaryConstants.js";
 import { StringManager } from "../../i18n/StringManager.js";
 
 export type EquationStripStrings = {
@@ -46,8 +47,8 @@ export class EquationStripNode extends Node {
   ) {
     super({ tagName: "div" });
 
-    const font = new PhetFont({ size: 15 });
-    const highlightFont = new PhetFont({ size: 15, weight: "bold" });
+    const font = new PhetFont({ size: EQUATION_STRIP_NODE_SETTINGS.FONT_FONT_SIZE });
+    const highlightFont = new PhetFont({ size: EQUATION_STRIP_NODE_SETTINGS.HIGHLIGHT_FONT_SIZE, weight: "bold" });
 
     const sourcedProperty = new DerivedProperty([freeSourceProperty], (s) => Math.abs(s) >= 1e-9);
 
@@ -56,7 +57,7 @@ export class EquationStripNode extends Node {
       (sourced, free0, freeN) => (sourced ? freeN : free0),
     );
     const title = new Text(titleStringProperty, {
-      font: new PhetFont({ size: 14, weight: "bold" }),
+      font: new PhetFont({ size: EQUATION_STRIP_NODE_SETTINGS.TITLE_FONT_SIZE, weight: "bold" }),
       fill: FieldBoundaryColors.textColorProperty,
     });
 
@@ -81,17 +82,24 @@ export class EquationStripNode extends Node {
         ? [alwaysContinuous, conditionalNode, discontinuous1, discontinuous2]
         : [conditionalNode, alwaysContinuous, discontinuous1, discontinuous2];
 
-    const row = new HBox({ spacing: 14, children: orderedTerms(conditional) });
+    const row = new HBox({ spacing: EQUATION_STRIP_NODE_SETTINGS.ROW_SPACING, children: orderedTerms(conditional) });
 
     const dualityText = new Text(strings.duality, {
-      font: new PhetFont(11),
+      font: new PhetFont(EQUATION_STRIP_NODE_SETTINGS.DUALITY_TEXT_FONT_SIZE),
       fill: FieldBoundaryColors.freeComponentColorProperty,
     });
 
     const content = new VBox({
-      spacing: 3,
+      spacing: EQUATION_STRIP_NODE_SETTINGS.CONTENT_SPACING,
       align: "left",
-      children: [new HBox({ spacing: 18, children: [title, row], align: "center" }), dualityText],
+      children: [
+        new HBox({
+          spacing: EQUATION_STRIP_NODE_SETTINGS.CONTENT_ITEM_1_SPACING,
+          children: [title, row],
+          align: "center",
+        }),
+        dualityText,
+      ],
     });
 
     const applyOpacity = (): void => {
@@ -128,15 +136,21 @@ export class EquationStripNode extends Node {
     );
     this.accessibleParagraph = accessibleStringProperty;
 
-    const background = new Rectangle(0, 0, 10, 10, {
-      cornerRadius: 6,
-      fill: FieldBoundaryColors.panelBackgroundColorProperty,
-      stroke: FieldBoundaryColors.panelBorderColorProperty,
-    });
+    const background = new Rectangle(
+      0,
+      0,
+      EQUATION_STRIP_NODE_SETTINGS.BACKGROUND_WIDTH,
+      EQUATION_STRIP_NODE_SETTINGS.BACKGROUND_HEIGHT,
+      {
+        cornerRadius: EQUATION_STRIP_NODE_SETTINGS.BACKGROUND_CORNER_RADIUS,
+        fill: FieldBoundaryColors.panelBackgroundColorProperty,
+        stroke: FieldBoundaryColors.panelBorderColorProperty,
+      },
+    );
 
     content.boundsProperty.link((bounds) => {
       background.setRect(0, 0, bounds.width + 24, bounds.height + 12);
-      content.left = 12;
+      content.left = EQUATION_STRIP_NODE_SETTINGS.LEFT_LEFT;
       content.centerY = background.centerY;
     });
 

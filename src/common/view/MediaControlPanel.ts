@@ -17,7 +17,7 @@ import { type Node, Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { ComboBox, type ComboBoxItem, HSlider } from "scenerystack/sun";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
-import { LOG_SLIDER_DECADES } from "../../FieldBoundaryConstants.js";
+import { LOG_SLIDER_DECADES, MEDIA_CONTROL_PANEL_SETTINGS } from "../../FieldBoundaryConstants.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import { FIELD_BOUNDARY_COMBO_BOX_OPTIONS, LIGHT_SURFACE_TEXT_FILL } from "../FieldBoundaryButtonOptions.js";
 import { FieldBoundaryPanel } from "../FieldBoundaryPanel.js";
@@ -51,13 +51,17 @@ export class MediaControlPanel extends FieldBoundaryPanel {
     options?: { fill?: TReadOnlyProperty<Color> },
   ) {
     const title = new Text(strings.title, {
-      font: new PhetFont({ size: 15, weight: "bold" }),
+      font: new PhetFont({ size: MEDIA_CONTROL_PANEL_SETTINGS.TITLE_FONT_SIZE, weight: "bold" }),
       fill: FieldBoundaryColors.textColorProperty,
     });
 
     const item = (value: MaterialPresetId, label: TReadOnlyProperty<string>): ComboBoxItem<MaterialPresetId> => ({
       value,
-      createNode: () => new Text(label, { font: new PhetFont(14), fill: LIGHT_SURFACE_TEXT_FILL }),
+      createNode: () =>
+        new Text(label, {
+          font: new PhetFont(MEDIA_CONTROL_PANEL_SETTINGS.ITEM_FONT_SIZE),
+          fill: LIGHT_SURFACE_TEXT_FILL,
+        }),
     });
 
     const comboItems: ComboBoxItem<MaterialPresetId>[] = presets.map((preset) => {
@@ -91,12 +95,18 @@ export class MediaControlPanel extends FieldBoundaryPanel {
         ],
         (value, symbol, pattern) => StringUtils.fillIn(pattern, { symbol: symbol, value: formatParameter(value) }),
       ),
-      { font: new PhetFont(13), fill: FieldBoundaryColors.textColorProperty },
+      {
+        font: new PhetFont(MEDIA_CONTROL_PANEL_SETTINGS.READOUT_FONT_SIZE),
+        fill: FieldBoundaryColors.textColorProperty,
+      },
     );
 
     const slider = new HSlider(logProperty, new Range(logRange.min, logRange.max), {
-      trackSize: new Dimension2(140, 4),
-      thumbSize: new Dimension2(14, 24),
+      trackSize: new Dimension2(MEDIA_CONTROL_PANEL_SETTINGS.SLIDER_WIDTH, MEDIA_CONTROL_PANEL_SETTINGS.SLIDER_HEIGHT),
+      thumbSize: new Dimension2(
+        MEDIA_CONTROL_PANEL_SETTINGS.SLIDER_WIDTH_SEGMENT_2,
+        MEDIA_CONTROL_PANEL_SETTINGS.SLIDER_HEIGHT_SEGMENT_2,
+      ),
       // One keyboard step is a fixed *factor*, which is what a log axis means.
       keyboardStep: (logRange.max - logRange.min) / 20,
       shiftKeyboardStep: (logRange.max - logRange.min) / 100,
@@ -111,7 +121,10 @@ export class MediaControlPanel extends FieldBoundaryPanel {
       if (decade >= parameterRange.min && decade <= parameterRange.max) {
         slider.addMajorTick(
           Math.log10(decade),
-          new Text(formatParameter(decade), { font: new PhetFont(10), fill: FieldBoundaryColors.textColorProperty }),
+          new Text(formatParameter(decade), {
+            font: new PhetFont(MEDIA_CONTROL_PANEL_SETTINGS.CONSTRUCTOR_FONT_SIZE),
+            fill: FieldBoundaryColors.textColorProperty,
+          }),
         );
       }
     }
@@ -120,7 +133,7 @@ export class MediaControlPanel extends FieldBoundaryPanel {
 
     super(
       new VBox({
-        spacing: 8,
+        spacing: MEDIA_CONTROL_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
         align: "left",
         children: [title, comboBox, readout, slider],
       }),

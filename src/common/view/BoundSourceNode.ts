@@ -25,6 +25,7 @@ import {
   ARROW_HEAD_WIDTH,
   BOUND_CHARGE_DISPLAY_MAX,
   BOUND_SCALE_HEADROOM,
+  BOUND_SOURCE_NODE_SETTINGS,
   COMPANION_ARROW_TAIL_WIDTH,
   MODEL_HALF_WIDTH,
 } from "../../FieldBoundaryConstants.js";
@@ -32,9 +33,9 @@ import { displayScale, formatScaleBadge } from "./displayScale.js";
 import { createChargeMarker, createCurrentMarker, MARKER_RADIUS } from "./interfaceMarkers.js";
 import { BOUND_LANE, laneOffset } from "./vectorLanes.js";
 
-const MAX_MARKERS = 9;
+const MAX_MARKERS: number = BOUND_SOURCE_NODE_SETTINGS.MAX_MARKERS;
 /** View-pixel offset of bound glyphs above the interface (away from the free source). */
-const BOUND_GLYPH_Y_OFFSET = 16;
+const BOUND_GLYPH_Y_OFFSET: number = BOUND_SOURCE_NODE_SETTINGS.BOUND_GLYPH_Y_OFFSET;
 
 type BoundSourceMode = "electric" | "magnetic";
 
@@ -60,18 +61,21 @@ export class BoundSourceNode extends Node {
     const originView = modelViewTransform.modelToViewPosition(new Vector2(0, 0));
 
     const arrowOptions = {
-      headWidth: ARROW_HEAD_WIDTH - 4,
-      headHeight: ARROW_HEAD_HEIGHT - 4,
+      headWidth: ARROW_HEAD_WIDTH - BOUND_SOURCE_NODE_SETTINGS.ARROW_OPTIONS_HEAD_WIDTH_OFFSET,
+      headHeight: ARROW_HEAD_HEIGHT - BOUND_SOURCE_NODE_SETTINGS.ARROW_OPTIONS_HEAD_HEIGHT_OFFSET,
       tailWidth: COMPANION_ARROW_TAIL_WIDTH,
       stroke: FieldBoundaryColors.polarizationColorProperty,
-      lineWidth: 1.5,
-      lineDash: [6, 4],
+      lineWidth: BOUND_SOURCE_NODE_SETTINGS.ARROW_OPTIONS_LINE_WIDTH,
+      lineDash: [
+        BOUND_SOURCE_NODE_SETTINGS.ARROW_OPTIONS_LINE_DASH_DASH,
+        BOUND_SOURCE_NODE_SETTINGS.CONSTRUCTOR_ARROW_OPTIONS_LINE_DASH_DASH,
+      ],
       fill: null,
     };
     const arrow1 = new ArrowNode(0, 0, 0, 0, arrowOptions);
     const arrow2 = new ArrowNode(0, 0, 0, 0, arrowOptions);
 
-    const labelFont = new PhetFont({ size: 14, weight: "bold" });
+    const labelFont = new PhetFont({ size: BOUND_SOURCE_NODE_SETTINGS.LABEL_FONT_SIZE, weight: "bold" });
     const label1 = new Text(options.label1Property, {
       font: labelFont,
       fill: FieldBoundaryColors.polarizationColorProperty,
@@ -81,11 +85,11 @@ export class BoundSourceNode extends Node {
       fill: FieldBoundaryColors.polarizationColorProperty,
     });
     const scaleBadge = new Text("", {
-      font: new PhetFont(11),
+      font: new PhetFont(BOUND_SOURCE_NODE_SETTINGS.SCALE_BADGE_FONT_SIZE),
       fill: FieldBoundaryColors.polarizationColorProperty,
     });
     const sourceLabel = new Text(options.sourceLabelProperty, {
-      font: new PhetFont({ size: 13, weight: "bold" }),
+      font: new PhetFont({ size: BOUND_SOURCE_NODE_SETTINGS.SOURCE_LABEL_FONT_SIZE, weight: "bold" }),
       fill: FieldBoundaryColors.polarizationColorProperty,
     });
 
@@ -178,7 +182,10 @@ export class BoundSourceNode extends Node {
 
         if (!hide1) {
           const tip = setArrowMedium1(arrow1, scaled1);
-          label1.rightBottom = tip.plusXY(-10, -4);
+          label1.rightBottom = tip.plusXY(
+            BOUND_SOURCE_NODE_SETTINGS.LABEL1_X_OFFSET,
+            BOUND_SOURCE_NODE_SETTINGS.LABEL1_Y_OFFSET,
+          );
           scaleBadge.string = formatScaleBadge(scale);
           scaleBadge.visible = scaleBadge.string.length > 0;
           scaleBadge.rightTop = label1.rightBottom.plusXY(0, 1);
@@ -187,7 +194,10 @@ export class BoundSourceNode extends Node {
         }
         if (!hide2) {
           const tail = setArrowMedium2(arrow2, scaled2);
-          label2.rightTop = tail.plusXY(-10, 4);
+          label2.rightTop = tail.plusXY(
+            BOUND_SOURCE_NODE_SETTINGS.LABEL2_X_OFFSET,
+            BOUND_SOURCE_NODE_SETTINGS.LABEL2_Y_OFFSET,
+          );
         }
 
         rebuildGlyphs(boundSource);

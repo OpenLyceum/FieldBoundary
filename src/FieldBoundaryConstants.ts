@@ -162,6 +162,390 @@ export const COMPANION_ARROW_TAIL_WIDTH = 3.5;
  */
 export const VECTOR_LANE_SPACING = 9;
 
+/** Settings for common/FieldBoundaryPanel.ts. */
+export const FIELD_BOUNDARY_PANEL_SETTINGS = {
+  /** Options x margin (px). */
+  OPTIONS_X_MARGIN: 12,
+  /** Options y margin (px). */
+  OPTIONS_Y_MARGIN: 10,
+} as const;
+
+/** Settings for common/FieldBoundaryScreenIcons.ts. */
+export const FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS = {
+  INTERFACE_LINE_LINE_DASH_DASH: 18, // px
+  INTERFACE_BACKDROP_INTERFACE_LINE_LINE_DASH_DASH: 14, // px
+  NORMAL_LINE_LINE_DASH_DASH: 10, // px
+  INTERFACE_BACKDROP_NORMAL_LINE_LINE_DASH_DASH: 8, // px
+
+  /** Pixels per model field unit — keeps default arrows readable at navbar size. */
+  FIELD_SCALE: 95,
+  /** Primary head width (px). */
+  PRIMARY_HEAD_WIDTH: 36,
+  /** Primary head height (px). */
+  PRIMARY_HEAD_HEIGHT: 32,
+  /** Primary tail width (px). */
+  PRIMARY_TAIL_WIDTH: 14,
+  /** Companion head width (px). */
+  COMPANION_HEAD_WIDTH: 28,
+  /** Companion head height (px). */
+  COMPANION_HEAD_HEIGHT: 24,
+  /** Companion tail width (px). */
+  COMPANION_TAIL_WIDTH: 9,
+  /** Half-length of the surface-normal reference tick (icon px). */
+  NORMAL_HALF: 150,
+  /** Interface line start x (px). */
+  INTERFACE_LINE_START_X: 40,
+  /** Interface line line width (px). */
+  INTERFACE_LINE_LINE_WIDTH: 6,
+  /** Normal line line width (px). */
+  NORMAL_LINE_LINE_WIDTH: 3,
+  /** Normal line opacity (dimensionless). */
+  NORMAL_LINE_OPACITY: 0.7,
+} as const;
+
+/** Settings for common/view/AngleArcsNode.ts. */
+export const ANGLE_ARCS_NODE_SETTINGS = {
+  /** View-pixel radius of each θ arc. */
+  ARC_RADIUS: 52,
+  /** Arc options line width (px). */
+  ARC_OPTIONS_LINE_WIDTH: 1.5,
+  /** Label font size (px). */
+  LABEL_FONT_SIZE: 14,
+} as const;
+
+/** Settings for common/view/AngleReadoutNode.ts. */
+export const ANGLE_READOUT_NODE_SETTINGS = {
+  /** Below this |tanθ₁| the ratio is numerically meaningless. */
+  MIN_TAN: 1e-3,
+  /** Relative agreement counted as "matches the prediction". */
+  MATCH_TOLERANCE: 0.02,
+  /** Font font size (px). */
+  FONT_FONT_SIZE: 14,
+  /** Predicted text font size (px). */
+  PREDICTED_TEXT_FONT_SIZE: 12,
+  /** Constructor spacing (px). */
+  CONSTRUCTOR_SPACING: 4,
+} as const;
+
+/** Settings for common/view/BoundSourceNode.ts. */
+export const BOUND_SOURCE_NODE_SETTINGS = {
+  ARROW_OPTIONS_HEAD_WIDTH_OFFSET: 4, // px
+  ARROW_OPTIONS_HEAD_HEIGHT_OFFSET: 4, // px
+  ARROW_OPTIONS_LINE_DASH_DASH: 6, // px
+  CONSTRUCTOR_ARROW_OPTIONS_LINE_DASH_DASH: 4, // px
+
+  LABEL1_X_OFFSET: -10, // px
+  LABEL1_Y_OFFSET: -4, // px
+  LABEL2_X_OFFSET: -10, // px
+  LABEL2_Y_OFFSET: 4, // px
+
+  /** Max markers (px). */
+  MAX_MARKERS: 9,
+  /** View-pixel offset of bound glyphs above the interface (away from the free source). */
+  BOUND_GLYPH_Y_OFFSET: 16,
+  /** Arrow options line width (px). */
+  ARROW_OPTIONS_LINE_WIDTH: 1.5,
+  /** Label font size (px). */
+  LABEL_FONT_SIZE: 14,
+  /** Scale badge font size (dimensionless). */
+  SCALE_BADGE_FONT_SIZE: 11,
+  /** Source label font size (px). */
+  SOURCE_LABEL_FONT_SIZE: 13,
+} as const;
+
+/** Settings for common/view/BoundaryVectorsNode.ts. */
+export const BOUNDARY_VECTORS_NODE_SETTINGS = {
+  P1_LABEL_X_OFFSET: 12, // px
+  P1_LABEL_Y_OFFSET: -4, // px
+  C1_LABEL_X_OFFSET: 12, // px
+  C1_LABEL_Y_OFFSET: 4, // px
+  P2_LABEL_X_OFFSET: 12, // px
+  P2_LABEL_Y_OFFSET: 4, // px
+  C2_LABEL_X_OFFSET: 12, // px
+  C2_LABEL_Y_OFFSET: -4, // px
+
+  /** Radius of the field-tip drag knob, and how far its touch and mouse areas reach past it, px. */
+  KNOB_RADIUS: 10,
+  /** Knob touch dilation (px). */
+  KNOB_TOUCH_DILATION: 10,
+  /** Knob mouse dilation (px). */
+  KNOB_MOUSE_DILATION: 4,
+  /** Companion arrow options line width (px). */
+  COMPANION_ARROW_OPTIONS_LINE_WIDTH: 1.8,
+  /** Label font size (px). */
+  LABEL_FONT_SIZE: 16,
+  /** Badge font size (px). */
+  BADGE_FONT_SIZE: 11,
+} as const;
+
+/** Settings for common/view/ComponentOverlayNode.ts. */
+export const COMPONENT_OVERLAY_NODE_SETTINGS = {
+  MAKE_LINE_LINE_DASH_DASH: 7, // px
+  CONSTRUCTOR_MAKE_LINE_LINE_DASH_DASH: 5, // px
+  APPLY_HIGHLIGHT_LINE_WIDTH: 2.5, // px
+  CONSTRUCTOR_APPLY_HIGHLIGHT_LINE_WIDTH: 1.5, // px
+
+  ET_LABEL_Y_OFFSET: -5, // px
+  DN_LABEL_X_OFFSET: 7, // px
+
+  /** Font font size (px). */
+  FONT_FONT_SIZE: 13,
+  /** Make line line width (px). */
+  MAKE_LINE_LINE_WIDTH: 1.5,
+} as const;
+
+/** Settings for common/view/EquationStripNode.ts. */
+export const EQUATION_STRIP_NODE_SETTINGS = {
+  CONTENT_ITEM_1_SPACING: 18, // px
+
+  /** Font font size (px). */
+  FONT_FONT_SIZE: 15,
+  /** Highlight font size (px). */
+  HIGHLIGHT_FONT_SIZE: 15,
+  /** Title font size (px). */
+  TITLE_FONT_SIZE: 14,
+  /** Row spacing (px). */
+  ROW_SPACING: 14,
+  /** Duality text font size (px). */
+  DUALITY_TEXT_FONT_SIZE: 11,
+  /** Content spacing (px). */
+  CONTENT_SPACING: 3,
+  /** Background width (px). */
+  BACKGROUND_WIDTH: 10,
+  /** Background height (px). */
+  BACKGROUND_HEIGHT: 10,
+  /** Background corner radius (px). */
+  BACKGROUND_CORNER_RADIUS: 6,
+  /** Left left (px). */
+  LEFT_LEFT: 12,
+} as const;
+
+/** Settings for common/view/FieldLinesNode.ts. */
+export const FIELD_LINES_NODE_SETTINGS = {
+  /** Line width line width (px). */
+  LINE_WIDTH_LINE_WIDTH: 1.5,
+} as const;
+
+/** Settings for common/view/FluxBoxNode.ts. */
+export const FLUX_BOX_NODE_SETTINGS = {
+  OUTLINE_LINE_DASH_DASH: 6, // px
+  CONSTRUCTOR_OUTLINE_LINE_DASH_DASH: 4, // px
+
+  HEIGHT_HANDLE_DILATION: 8, // px
+  HEIGHT_HANDLE_DILATION_SEGMENT_2: 4, // px
+
+  /** Outline line width (px). */
+  OUTLINE_LINE_WIDTH: 2,
+  /** Height handle radius (px). */
+  HEIGHT_HANDLE_RADIUS: 7,
+  /** Value font size (px). */
+  VALUE_FONT_SIZE: 12,
+  /** Right value font size (px). */
+  RIGHT_VALUE_FONT_SIZE: 11,
+  /** Left value font size (px). */
+  LEFT_VALUE_FONT_SIZE: 11,
+} as const;
+
+/** Settings for common/view/FluxTallyPanel.ts. */
+export const FLUX_TALLY_PANEL_SETTINGS = {
+  /** Label font size (px). */
+  LABEL_FONT_SIZE: 12,
+  /** Value font size (px). */
+  VALUE_FONT_SIZE: 12,
+  /** Title font size (px). */
+  TITLE_FONT_SIZE: 13,
+  /** Grid x spacing (px). */
+  GRID_X_SPACING: 12,
+  /** Grid y spacing (px). */
+  GRID_Y_SPACING: 3,
+  /** Hint font size (px). */
+  HINT_FONT_SIZE: 10,
+  /** Hint max width (px). */
+  HINT_MAX_WIDTH: 200,
+  /** Constructor spacing (px). */
+  CONSTRUCTOR_SPACING: 6,
+} as const;
+
+/** Settings for common/view/FreeSourceControlPanel.ts. */
+export const FREE_SOURCE_CONTROL_PANEL_SETTINGS = {
+  NUMBER_CONTROL_WIDTH_SEGMENT_2: 14, // px
+  NUMBER_CONTROL_HEIGHT_SEGMENT_2: 24, // px
+
+  /** Title font size (px). */
+  TITLE_FONT_SIZE: 15,
+  /** Number control delta (control/model units). */
+  NUMBER_CONTROL_DELTA: 0.1,
+  /** Number control vertical spacing (px). */
+  NUMBER_CONTROL_VERTICAL_SPACING: 4,
+  /** Number control font size (px). */
+  NUMBER_CONTROL_FONT_SIZE: 13,
+  /** Number control width (px). */
+  NUMBER_CONTROL_WIDTH: 120,
+  /** Number control height (px). */
+  NUMBER_CONTROL_HEIGHT: 4,
+  /** Constructor spacing (px). */
+  CONSTRUCTOR_SPACING: 8,
+} as const;
+
+/** Settings for common/view/FreeSourceOverlayNode.ts. */
+export const FREE_SOURCE_OVERLAY_NODE_SETTINGS = {
+  /** Max markers (px). */
+  MAX_MARKERS: 9,
+} as const;
+
+/** Settings for common/view/InterfaceBackgroundNode.ts. */
+export const INTERFACE_BACKGROUND_NODE_SETTINGS = {
+  INTERFACE_LINE_LINE_DASH_DASH: 10, // px
+  CONSTRUCTOR_INTERFACE_LINE_LINE_DASH_DASH: 8, // px
+  NORMAL_LINE_LINE_DASH_DASH: 6, // px
+  CONSTRUCTOR_NORMAL_LINE_LINE_DASH_DASH: 5, // px
+
+  /** Interface line line width (px). */
+  INTERFACE_LINE_LINE_WIDTH: 3,
+  /** Normal line line width (px). */
+  NORMAL_LINE_LINE_WIDTH: 1.5,
+} as const;
+
+/** Settings for common/view/InterfaceScreenView.ts. */
+export const INTERFACE_SCREEN_VIEW_SETTINGS = {
+  UNITS_NOTE_MAX_WIDTH_OFFSET: 32, // px
+
+  /** Inset of tags, readouts and panels from the play-area edges, px. */
+  PLAY_AREA_INSET: 8,
+  /** Top of the angle readout, below the medium 1 tag, px from the play-area top. */
+  ANGLE_READOUT_TOP: 36,
+  /** How far above the interface the limiting-case callout is anchored, px. */
+  LIMITING_CALLOUT_OFFSET_Y: 92,
+  /** Gap between the play area and the control column, px. */
+  CONTROLS_GAP: 12,
+  /** Vertical gap between stacked control panels, px. */
+  PANEL_SPACING: 10,
+  /** Medium1 tag font size (px). */
+  MEDIUM1_TAG_FONT_SIZE: 14,
+  /** Medium2 tag font size (px). */
+  MEDIUM2_TAG_FONT_SIZE: 14,
+  /** Protractor scale (dimensionless). */
+  PROTRACTOR_SCALE: 0.55,
+  /** Units note font size (px). */
+  UNITS_NOTE_FONT_SIZE: 11,
+} as const;
+
+/** Settings for common/view/LimitingCaseCalloutNode.ts. */
+export const LIMITING_CASE_CALLOUT_NODE_SETTINGS = {
+  TEXT_LINE_WRAP: 320, // px
+
+  /** Text font size (px). */
+  TEXT_FONT_SIZE: 13,
+  /** Background width (px). */
+  BACKGROUND_WIDTH: 10,
+  /** Background height (px). */
+  BACKGROUND_HEIGHT: 10,
+  /** Background corner radius (px). */
+  BACKGROUND_CORNER_RADIUS: 6,
+  /** Background line width (px). */
+  BACKGROUND_LINE_WIDTH: 1.5,
+} as const;
+
+/** Settings for common/view/MagnitudeControlPanel.ts. */
+export const MAGNITUDE_CONTROL_PANEL_SETTINGS = {
+  NUMBER_CONTROL_WIDTH_SEGMENT_2: 14, // px
+  NUMBER_CONTROL_HEIGHT_SEGMENT_2: 24, // px
+
+  /** Title font size (px). */
+  TITLE_FONT_SIZE: 15,
+  /** Number control delta (control/model units). */
+  NUMBER_CONTROL_DELTA: 0.1,
+  /** Number control vertical spacing (px). */
+  NUMBER_CONTROL_VERTICAL_SPACING: 4,
+  /** Number control font size (px). */
+  NUMBER_CONTROL_FONT_SIZE: 13,
+  /** Number control width (px). */
+  NUMBER_CONTROL_WIDTH: 120,
+  /** Number control height (px). */
+  NUMBER_CONTROL_HEIGHT: 4,
+  /** Constructor spacing (px). */
+  CONSTRUCTOR_SPACING: 8,
+} as const;
+
+/** Settings for common/view/MediaControlPanel.ts. */
+export const MEDIA_CONTROL_PANEL_SETTINGS = {
+  SLIDER_WIDTH_SEGMENT_2: 14, // px
+  SLIDER_HEIGHT_SEGMENT_2: 24, // px
+
+  /** Title font size (px). */
+  TITLE_FONT_SIZE: 15,
+  /** Item font size (px). */
+  ITEM_FONT_SIZE: 14,
+  /** Readout font size (px). */
+  READOUT_FONT_SIZE: 13,
+  /** Slider width (px). */
+  SLIDER_WIDTH: 140,
+  /** Slider height (px). */
+  SLIDER_HEIGHT: 4,
+  /** Constructor font size (px). */
+  CONSTRUCTOR_FONT_SIZE: 10,
+  /** Constructor spacing (px). */
+  CONSTRUCTOR_SPACING: 8,
+} as const;
+
+/** Settings for common/view/ToolsControlPanel.ts. */
+export const TOOLS_CONTROL_PANEL_SETTINGS = {
+  /** Title font size (px). */
+  TITLE_FONT_SIZE: 15,
+  /** Label font size (px). */
+  LABEL_FONT_SIZE: 14,
+  /** Symbol font size (px). */
+  SYMBOL_FONT_SIZE: 15,
+  /** Vectors heading font size (px). */
+  VECTORS_HEADING_FONT_SIZE: 14,
+  /** Vectors row spacing (px). */
+  VECTORS_ROW_SPACING: 14,
+  /** Group spacing (px). */
+  GROUP_SPACING: 8,
+  /** Constructor spacing (px). */
+  CONSTRUCTOR_SPACING: 10,
+} as const;
+
+/** Settings for common/view/currentDetails.ts. */
+export const CURRENT_DETAILS_SETTINGS = {
+  /** Below this a source or bound density counts as zero for description purposes. */
+  NEGLIGIBLE: 5e-3,
+} as const;
+
+/** Settings for common/view/interfaceMarkers.ts. */
+export const INTERFACE_MARKERS_SETTINGS = {
+  BACKDROP_LINE_DASH_DASH: 4, // px
+  TEXT_SIZE: 22, // px
+  CREATE_CHARGE_MARKER_TEXT_SIZE: 18, // px
+  RING_LINE_DASH_DASH: 4, // px
+  CREATE_CURRENT_MARKER_RING_LINE_DASH_DASH: 3, // px
+
+  /** Marker radius (px). */
+  MARKER_RADIUS: 11,
+  /** Backdrop line width (px). */
+  BACKDROP_LINE_WIDTH: 2.5,
+  /** Ring line width (px). */
+  RING_LINE_WIDTH: 2.5,
+  /** Create current marker radius (px). */
+  CREATE_CURRENT_MARKER_RADIUS: 2.6,
+  /** Create current marker line width (px). */
+  CREATE_CURRENT_MARKER_LINE_WIDTH: 2.5,
+} as const;
+
+/** Settings for preferences/FieldBoundaryPreferencesNode.ts. */
+export const FIELD_BOUNDARY_PREFERENCES_NODE_SETTINGS = {
+  /** Header font size (px). */
+  HEADER_FONT_SIZE: 18,
+  /** Constructor spacing (px). */
+  CONSTRUCTOR_SPACING: 12,
+} as const;
+
+/** Settings for common/model/DualMediaInterfaceModel.ts; units are documented per value. */
+export const DUAL_MEDIA_INTERFACE_SETTINGS = {
+  /** Minimum primary-field normal component while dragging (simulation field units). */
+  MIN_PRIMARY_TIP_Y: 0.2,
+} as const;
+
 FieldBoundaryNamespace.register("FieldBoundaryConstants", {
   LAYOUT_WIDTH,
   LAYOUT_HEIGHT,

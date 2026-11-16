@@ -16,10 +16,11 @@ import type { ModelViewTransform2 } from "scenerystack/phetcommon";
 import type { Color } from "scenerystack/scenery";
 import { Node, Path, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
+import { ANGLE_ARCS_NODE_SETTINGS } from "../../FieldBoundaryConstants.js";
 import { angleFromNormal } from "../model/interfaceFields.js";
 
 /** View-pixel radius of each θ arc. */
-const ARC_RADIUS = 52;
+const ARC_RADIUS: number = ANGLE_ARCS_NODE_SETTINGS.ARC_RADIUS;
 
 /** Below this |θ| the wedge is invisible — hide the arc rather than a speck. */
 const MIN_ARC_ANGLE = (2 * Math.PI) / 180;
@@ -67,13 +68,13 @@ export class AngleArcsNode extends Node {
 
     const arcOptions = {
       stroke: options.colorProperty,
-      lineWidth: 1.5,
+      lineWidth: ANGLE_ARCS_NODE_SETTINGS.ARC_OPTIONS_LINE_WIDTH,
       pickable: false,
     };
     const arc1 = new Path(null, arcOptions);
     const arc2 = new Path(null, arcOptions);
 
-    const labelFont = new PhetFont({ size: 14, weight: "bold" });
+    const labelFont = new PhetFont({ size: ANGLE_ARCS_NODE_SETTINGS.LABEL_FONT_SIZE, weight: "bold" });
     const label1 = new Text("θ₁", { font: labelFont, fill: options.colorProperty, pickable: false });
     const label2 = new Text("θ₂", { font: labelFont, fill: options.colorProperty, pickable: false });
 

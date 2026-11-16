@@ -23,6 +23,7 @@ import {
   DEFAULT_FIELD_MAGNITUDE,
   DEFAULT_MU1,
   DEFAULT_MU2,
+  FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS,
 } from "../FieldBoundaryConstants.js";
 import { fieldFromPolar, refractElectric, refractMagnetic } from "./model/interfaceFields.js";
 
@@ -34,17 +35,17 @@ const OX = W / 2;
 const OY = H / 2;
 
 /** Pixels per model field unit — keeps default arrows readable at navbar size. */
-const FIELD_SCALE = 95;
+const FIELD_SCALE: number = FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.FIELD_SCALE;
 
-const PRIMARY_HEAD_WIDTH = 36;
-const PRIMARY_HEAD_HEIGHT = 32;
-const PRIMARY_TAIL_WIDTH = 14;
-const COMPANION_HEAD_WIDTH = 28;
-const COMPANION_HEAD_HEIGHT = 24;
-const COMPANION_TAIL_WIDTH = 9;
+const PRIMARY_HEAD_WIDTH: number = FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.PRIMARY_HEAD_WIDTH;
+const PRIMARY_HEAD_HEIGHT: number = FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.PRIMARY_HEAD_HEIGHT;
+const PRIMARY_TAIL_WIDTH: number = FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.PRIMARY_TAIL_WIDTH;
+const COMPANION_HEAD_WIDTH: number = FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.COMPANION_HEAD_WIDTH;
+const COMPANION_HEAD_HEIGHT: number = FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.COMPANION_HEAD_HEIGHT;
+const COMPANION_TAIL_WIDTH: number = FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.COMPANION_TAIL_WIDTH;
 
 /** Half-length of the surface-normal reference tick (icon px). */
-const NORMAL_HALF = 150;
+const NORMAL_HALF: number = FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.NORMAL_HALF;
 
 function background(): Rectangle {
   return new Rectangle(0, 0, W, H, { fill: FieldBoundaryColors.backgroundColorProperty });
@@ -66,17 +67,23 @@ function interfaceBackdrop(): Node {
   const medium2 = new Rectangle(0, OY, W, H - OY, {
     fill: FieldBoundaryColors.medium2FillProperty,
   });
-  const interfaceLine = new Line(40, OY, W - 40, OY, {
+  const interfaceLine = new Line(FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.INTERFACE_LINE_START_X, OY, W - 40, OY, {
     stroke: FieldBoundaryColors.interfaceStrokeProperty,
-    lineWidth: 6,
-    lineDash: [18, 14],
+    lineWidth: FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.INTERFACE_LINE_LINE_WIDTH,
+    lineDash: [
+      FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.INTERFACE_LINE_LINE_DASH_DASH,
+      FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.INTERFACE_BACKDROP_INTERFACE_LINE_LINE_DASH_DASH,
+    ],
   });
   // Surface-normal reference through the interface origin (faint; behind arrows).
   const normalLine = new Line(OX, OY - NORMAL_HALF, OX, OY + NORMAL_HALF, {
     stroke: FieldBoundaryColors.normalStrokeProperty,
-    lineWidth: 3,
-    lineDash: [10, 8],
-    opacity: 0.7,
+    lineWidth: FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.NORMAL_LINE_LINE_WIDTH,
+    lineDash: [
+      FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.NORMAL_LINE_LINE_DASH_DASH,
+      FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.INTERFACE_BACKDROP_NORMAL_LINE_LINE_DASH_DASH,
+    ],
+    opacity: FIELD_BOUNDARY_SCREEN_ICONS_SETTINGS.NORMAL_LINE_OPACITY,
   });
   return new Node({ children: [medium1, medium2, interfaceLine, normalLine] });
 }

@@ -13,6 +13,7 @@ import { StringUtils } from "scenerystack/phetcommon";
 import { GridBox, Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
+import { FLUX_TALLY_PANEL_SETTINGS } from "../../FieldBoundaryConstants.js";
 import { FieldBoundaryPanel } from "../FieldBoundaryPanel.js";
 import type { InterfaceBoxTally } from "../model/interfaceFields.js";
 import { formatTallyValue } from "./fluxTally.js";
@@ -36,11 +37,11 @@ export class FluxTallyPanel extends FieldBoundaryPanel {
     visibleProperty: TReadOnlyProperty<boolean>,
     strings: FluxTallyPanelStrings,
   ) {
-    const labelFont = new PhetFont(12);
-    const valueFont = new PhetFont({ size: 12, weight: "bold" });
+    const labelFont = new PhetFont(FLUX_TALLY_PANEL_SETTINGS.LABEL_FONT_SIZE);
+    const valueFont = new PhetFont({ size: FLUX_TALLY_PANEL_SETTINGS.VALUE_FONT_SIZE, weight: "bold" });
 
     const title = new Text(strings.title, {
-      font: new PhetFont({ size: 13, weight: "bold" }),
+      font: new PhetFont({ size: FLUX_TALLY_PANEL_SETTINGS.TITLE_FONT_SIZE, weight: "bold" }),
       fill: FieldBoundaryColors.textColorProperty,
     });
 
@@ -64,8 +65,8 @@ export class FluxTallyPanel extends FieldBoundaryPanel {
     });
 
     const grid = new GridBox({
-      xSpacing: 12,
-      ySpacing: 3,
+      xSpacing: FLUX_TALLY_PANEL_SETTINGS.GRID_X_SPACING,
+      ySpacing: FLUX_TALLY_PANEL_SETTINGS.GRID_Y_SPACING,
       xAlign: "left",
       rows: [
         [label(strings.medium1Face), topValue],
@@ -77,14 +78,14 @@ export class FluxTallyPanel extends FieldBoundaryPanel {
     });
 
     const hint = new Text(strings.hint, {
-      font: new PhetFont(10),
+      font: new PhetFont(FLUX_TALLY_PANEL_SETTINGS.HINT_FONT_SIZE),
       fill: FieldBoundaryColors.freeComponentColorProperty,
-      maxWidth: 200,
+      maxWidth: FLUX_TALLY_PANEL_SETTINGS.HINT_MAX_WIDTH,
     });
 
     super(
       new VBox({
-        spacing: 6,
+        spacing: FLUX_TALLY_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
         align: "left",
         children: [title, grid, hint],
       }),

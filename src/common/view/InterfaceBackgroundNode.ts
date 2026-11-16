@@ -8,7 +8,11 @@ import { Vector2 } from "scenerystack/dot";
 import type { ModelViewTransform2 } from "scenerystack/phetcommon";
 import { Line, Node, Rectangle } from "scenerystack/scenery";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
-import { MODEL_HALF_HEIGHT, MODEL_HALF_WIDTH } from "../../FieldBoundaryConstants.js";
+import {
+  INTERFACE_BACKGROUND_NODE_SETTINGS,
+  MODEL_HALF_HEIGHT,
+  MODEL_HALF_WIDTH,
+} from "../../FieldBoundaryConstants.js";
 
 export class InterfaceBackgroundNode extends Node {
   public constructor(modelViewTransform: ModelViewTransform2, showNormalProperty: Property<boolean>) {
@@ -43,8 +47,11 @@ export class InterfaceBackgroundNode extends Node {
       origin.y,
       {
         stroke: FieldBoundaryColors.interfaceStrokeProperty,
-        lineWidth: 3,
-        lineDash: [10, 8],
+        lineWidth: INTERFACE_BACKGROUND_NODE_SETTINGS.INTERFACE_LINE_LINE_WIDTH,
+        lineDash: [
+          INTERFACE_BACKGROUND_NODE_SETTINGS.INTERFACE_LINE_LINE_DASH_DASH,
+          INTERFACE_BACKGROUND_NODE_SETTINGS.CONSTRUCTOR_INTERFACE_LINE_LINE_DASH_DASH,
+        ],
       },
     );
 
@@ -52,8 +59,11 @@ export class InterfaceBackgroundNode extends Node {
     const normalBottom = modelViewTransform.modelToViewPosition(new Vector2(0, -MODEL_HALF_HEIGHT * 0.85));
     const normalLine = new Line(normalTop.x, normalTop.y, normalBottom.x, normalBottom.y, {
       stroke: FieldBoundaryColors.normalStrokeProperty,
-      lineWidth: 1.5,
-      lineDash: [6, 5],
+      lineWidth: INTERFACE_BACKGROUND_NODE_SETTINGS.NORMAL_LINE_LINE_WIDTH,
+      lineDash: [
+        INTERFACE_BACKGROUND_NODE_SETTINGS.NORMAL_LINE_LINE_DASH_DASH,
+        INTERFACE_BACKGROUND_NODE_SETTINGS.CONSTRUCTOR_NORMAL_LINE_LINE_DASH_DASH,
+      ],
       visibleProperty: showNormalProperty,
     });
 

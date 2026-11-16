@@ -14,8 +14,9 @@ import { Vector2 } from "scenerystack/dot";
 import { Circle, type Color, Line, Node, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
+import { INTERFACE_MARKERS_SETTINGS } from "../../FieldBoundaryConstants.js";
 
-export const MARKER_RADIUS = 11;
+export const MARKER_RADIUS: number = INTERFACE_MARKERS_SETTINGS.MARKER_RADIUS;
 
 export type MarkerStyle = "free" | "bound";
 
@@ -30,8 +31,8 @@ function backdrop(style: MarkerStyle, colorProperty: TReadOnlyProperty<Color>): 
     : new Circle(MARKER_RADIUS, {
         fill: FieldBoundaryColors.panelBackgroundColorProperty,
         stroke: colorProperty,
-        lineWidth: 2.5,
-        lineDash: [4, 3],
+        lineWidth: INTERFACE_MARKERS_SETTINGS.BACKDROP_LINE_WIDTH,
+        lineDash: [INTERFACE_MARKERS_SETTINGS.BACKDROP_LINE_DASH_DASH, 3],
         pickable: false,
       });
 }
@@ -43,7 +44,13 @@ export function createChargeMarker(
   style: MarkerStyle = "free",
 ): Node {
   const text = new Text(positive ? "+" : "−", {
-    font: new PhetFont({ size: style === "free" ? 22 : 18, weight: "bold" }),
+    font: new PhetFont({
+      size:
+        style === "free"
+          ? INTERFACE_MARKERS_SETTINGS.TEXT_SIZE
+          : INTERFACE_MARKERS_SETTINGS.CREATE_CHARGE_MARKER_TEXT_SIZE,
+      weight: "bold",
+    }),
     fill: colorProperty,
     pickable: false,
   });
@@ -63,20 +70,38 @@ export function createCurrentMarker(
   const radius = MARKER_RADIUS - 2;
   const ring = new Circle(radius, {
     stroke: colorProperty,
-    lineWidth: 2.5,
-    ...(style === "bound" ? { lineDash: [4, 3] } : {}),
+    lineWidth: INTERFACE_MARKERS_SETTINGS.RING_LINE_WIDTH,
+    ...(style === "bound"
+      ? {
+          lineDash: [
+            INTERFACE_MARKERS_SETTINGS.RING_LINE_DASH_DASH,
+            INTERFACE_MARKERS_SETTINGS.CREATE_CURRENT_MARKER_RING_LINE_DASH_DASH,
+          ],
+        }
+      : {}),
     pickable: false,
   });
 
   let inner: Node;
   if (positive) {
-    inner = new Circle(2.6, { fill: colorProperty, pickable: false });
+    inner = new Circle(INTERFACE_MARKERS_SETTINGS.CREATE_CURRENT_MARKER_RADIUS, {
+      fill: colorProperty,
+      pickable: false,
+    });
   } else {
     const d = radius * 0.55;
     inner = new Node({
       children: [
-        new Line(-d, -d, d, d, { stroke: colorProperty, lineWidth: 2.5, pickable: false }),
-        new Line(-d, d, d, -d, { stroke: colorProperty, lineWidth: 2.5, pickable: false }),
+        new Line(-d, -d, d, d, {
+          stroke: colorProperty,
+          lineWidth: INTERFACE_MARKERS_SETTINGS.CREATE_CURRENT_MARKER_LINE_WIDTH,
+          pickable: false,
+        }),
+        new Line(-d, d, d, -d, {
+          stroke: colorProperty,
+          lineWidth: INTERFACE_MARKERS_SETTINGS.CREATE_CURRENT_MARKER_LINE_WIDTH,
+          pickable: false,
+        }),
       ],
     });
   }

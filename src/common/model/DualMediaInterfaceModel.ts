@@ -8,7 +8,11 @@
 import { Multilink, NumberProperty, type Property, StringProperty, type UnknownMultilink } from "scenerystack/axon";
 import { type Range, Vector2, Vector2Property } from "scenerystack/dot";
 import type { TModel } from "scenerystack/joist";
-import { DEFAULT_FIELD_ANGLE, DEFAULT_FIELD_MAGNITUDE } from "../../FieldBoundaryConstants.js";
+import {
+  DEFAULT_FIELD_ANGLE,
+  DEFAULT_FIELD_MAGNITUDE,
+  DUAL_MEDIA_INTERFACE_SETTINGS,
+} from "../../FieldBoundaryConstants.js";
 import { angleFromNormal, clampAngle, fieldFromPolar } from "./interfaceFields.js";
 import { type MaterialPreset, type MaterialPresetId, presetById } from "./MaterialPresets.js";
 import { SharedModel } from "./SharedModel.js";
@@ -93,7 +97,7 @@ export abstract class DualMediaInterfaceModel implements TModel {
 
   /** Set primary angle from a medium-1 tip (model coords); magnitude stays fixed. */
   public setPrimaryFromTip(tip: Vector2): void {
-    const y = Math.max(0.2, tip.y);
+    const y = Math.max(DUAL_MEDIA_INTERFACE_SETTINGS.MIN_PRIMARY_TIP_Y, tip.y);
     this.primaryAngleProperty.value = clampAngle(Math.atan2(tip.x, y));
   }
 

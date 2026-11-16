@@ -15,12 +15,12 @@ import type { TReadOnlyProperty } from "scenerystack/axon";
 import type { ModelViewTransform2 } from "scenerystack/phetcommon";
 import { Node } from "scenerystack/scenery";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
-import { MODEL_HALF_WIDTH } from "../../FieldBoundaryConstants.js";
+import { FREE_SOURCE_OVERLAY_NODE_SETTINGS, MODEL_HALF_WIDTH } from "../../FieldBoundaryConstants.js";
 import { createChargeMarker, createCurrentMarker } from "./interfaceMarkers.js";
 
 export type FreeSourceMode = "electric" | "magnetic";
 
-const MAX_MARKERS = 9;
+const MAX_MARKERS: number = FREE_SOURCE_OVERLAY_NODE_SETTINGS.MAX_MARKERS;
 
 export class FreeSourceOverlayNode extends Node {
   public constructor(

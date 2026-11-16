@@ -1,3 +1,4 @@
+import { FIELD_BOUNDARY_PREFERENCES_NODE_SETTINGS } from "../FieldBoundaryConstants.js";
 /**
  * FieldBoundaryPreferencesNode.ts
  *
@@ -21,13 +22,13 @@ export class FieldBoundaryPreferencesNode extends VBox {
     const prefStrings = StringManager.getInstance().getPreferences();
 
     const header = new Text(prefStrings.titleStringProperty, {
-      font: new PhetFont({ size: 18, weight: "bold" }),
+      font: new PhetFont({ size: FIELD_BOUNDARY_PREFERENCES_NODE_SETTINGS.HEADER_FONT_SIZE, weight: "bold" }),
       fill: PREFERENCES_TEXT_FILL,
     });
 
     super({
       align: "left",
-      spacing: 12,
+      spacing: FIELD_BOUNDARY_PREFERENCES_NODE_SETTINGS.CONSTRUCTOR_SPACING,
       children: [header],
     });
   }

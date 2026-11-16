@@ -20,6 +20,7 @@ import {
   ARROW_HEAD_HEIGHT,
   ARROW_HEAD_WIDTH,
   ARROW_TAIL_WIDTH,
+  BOUNDARY_VECTORS_NODE_SETTINGS,
   COMPANION_ARROW_TAIL_WIDTH,
   COMPANION_SCALE_HEADROOM,
 } from "../../FieldBoundaryConstants.js";
@@ -27,9 +28,9 @@ import { displayScale, formatScaleBadge } from "./displayScale.js";
 import { COMPANION_LANE, laneOffset, PRIMARY_LANE } from "./vectorLanes.js";
 
 /** Radius of the field-tip drag knob, and how far its touch and mouse areas reach past it, px. */
-const KNOB_RADIUS = 10;
-const KNOB_TOUCH_DILATION = 10;
-const KNOB_MOUSE_DILATION = 4;
+const KNOB_RADIUS: number = BOUNDARY_VECTORS_NODE_SETTINGS.KNOB_RADIUS;
+const KNOB_TOUCH_DILATION: number = BOUNDARY_VECTORS_NODE_SETTINGS.KNOB_TOUCH_DILATION;
+const KNOB_MOUSE_DILATION: number = BOUNDARY_VECTORS_NODE_SETTINGS.KNOB_MOUSE_DILATION;
 
 export type BoundaryVectorsNodeOptions = {
   primaryProperty: TReadOnlyProperty<Vector2>;
@@ -71,7 +72,7 @@ export class BoundaryVectorsNode extends Node {
       headHeight: ARROW_HEAD_HEIGHT - 2,
       tailWidth: COMPANION_ARROW_TAIL_WIDTH,
       stroke: options.companionColorProperty,
-      lineWidth: 1.8,
+      lineWidth: BOUNDARY_VECTORS_NODE_SETTINGS.COMPANION_ARROW_OPTIONS_LINE_WIDTH,
       fill: null,
     };
     const primary1 = new ArrowNode(0, 0, 0, 0, primaryArrowOptions);
@@ -79,7 +80,7 @@ export class BoundaryVectorsNode extends Node {
     const primary2 = new ArrowNode(0, 0, 0, 0, primaryArrowOptions);
     const companion2 = new ArrowNode(0, 0, 0, 0, companionArrowOptions);
 
-    const labelFont = new PhetFont({ size: 16, weight: "bold" });
+    const labelFont = new PhetFont({ size: BOUNDARY_VECTORS_NODE_SETTINGS.LABEL_FONT_SIZE, weight: "bold" });
     const p1Label = new Text(options.primary1Label, {
       font: labelFont,
       fill: options.primaryColorProperty,
@@ -99,7 +100,7 @@ export class BoundaryVectorsNode extends Node {
 
     // The companion arrows are shrunk to stay on screen at large εᵣ / μᵣ. Say so
     // on screen — otherwise the drawn lengths invite a false |D| : |E| reading.
-    const badgeFont = new PhetFont(11);
+    const badgeFont = new PhetFont(BOUNDARY_VECTORS_NODE_SETTINGS.BADGE_FONT_SIZE);
     const c1ScaleBadge = new Text("", { font: badgeFont, fill: options.companionColorProperty });
     const c2ScaleBadge = new Text("", { font: badgeFont, fill: options.companionColorProperty });
 
@@ -187,10 +188,22 @@ export class BoundaryVectorsNode extends Node {
       const tailC2 = setArrowMedium2(companion2, c2.timesScalar(scale), COMPANION_LANE);
 
       knob.center = tipP1;
-      p1Label.leftBottom = tipP1.plusXY(12, -4);
-      c1Label.leftTop = tipC1.plusXY(12, 4);
-      p2Label.leftTop = tailP2.plusXY(12, 4);
-      c2Label.leftBottom = tailC2.plusXY(12, -4);
+      p1Label.leftBottom = tipP1.plusXY(
+        BOUNDARY_VECTORS_NODE_SETTINGS.P1_LABEL_X_OFFSET,
+        BOUNDARY_VECTORS_NODE_SETTINGS.P1_LABEL_Y_OFFSET,
+      );
+      c1Label.leftTop = tipC1.plusXY(
+        BOUNDARY_VECTORS_NODE_SETTINGS.C1_LABEL_X_OFFSET,
+        BOUNDARY_VECTORS_NODE_SETTINGS.C1_LABEL_Y_OFFSET,
+      );
+      p2Label.leftTop = tailP2.plusXY(
+        BOUNDARY_VECTORS_NODE_SETTINGS.P2_LABEL_X_OFFSET,
+        BOUNDARY_VECTORS_NODE_SETTINGS.P2_LABEL_Y_OFFSET,
+      );
+      c2Label.leftBottom = tailC2.plusXY(
+        BOUNDARY_VECTORS_NODE_SETTINGS.C2_LABEL_X_OFFSET,
+        BOUNDARY_VECTORS_NODE_SETTINGS.C2_LABEL_Y_OFFSET,
+      );
 
       const badge = formatScaleBadge(scale);
       c1ScaleBadge.string = badge;

@@ -30,7 +30,7 @@ import type { ModelViewTransform2 } from "scenerystack/phetcommon";
 import { Line, Node, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
-import { COMPANION_SCALE_HEADROOM } from "../../FieldBoundaryConstants.js";
+import { COMPANION_SCALE_HEADROOM, COMPONENT_OVERLAY_NODE_SETTINGS } from "../../FieldBoundaryConstants.js";
 import { displayScale } from "./displayScale.js";
 import { COMPANION_LANE, PRIMARY_LANE, projectionCorners } from "./vectorLanes.js";
 
@@ -58,13 +58,16 @@ export class ComponentOverlayNode extends Node {
     super({ visibleProperty });
 
     const originView = modelViewTransform.modelToViewPosition(new Vector2(0, 0));
-    const font = new PhetFont(13);
+    const font = new PhetFont(COMPONENT_OVERLAY_NODE_SETTINGS.FONT_FONT_SIZE);
 
     const makeLine = (): Line =>
       new Line(0, 0, 0, 0, {
         stroke: FieldBoundaryColors.freeComponentColorProperty,
-        lineWidth: 1.5,
-        lineDash: [7, 5],
+        lineWidth: COMPONENT_OVERLAY_NODE_SETTINGS.MAKE_LINE_LINE_WIDTH,
+        lineDash: [
+          COMPONENT_OVERLAY_NODE_SETTINGS.MAKE_LINE_LINE_DASH_DASH,
+          COMPONENT_OVERLAY_NODE_SETTINGS.CONSTRUCTOR_MAKE_LINE_LINE_DASH_DASH,
+        ],
       });
 
     const makeRectangle = (): ProjectionRectangle => ({ tangential: makeLine(), normal: makeLine() });
@@ -106,7 +109,9 @@ export class ComponentOverlayNode extends Node {
       line.stroke = highlight
         ? FieldBoundaryColors.continuousComponentColorProperty
         : FieldBoundaryColors.freeComponentColorProperty;
-      line.lineWidth = highlight ? 2.5 : 1.5;
+      line.lineWidth = highlight
+        ? COMPONENT_OVERLAY_NODE_SETTINGS.APPLY_HIGHLIGHT_LINE_WIDTH
+        : COMPONENT_OVERLAY_NODE_SETTINGS.CONSTRUCTOR_APPLY_HIGHLIGHT_LINE_WIDTH;
     };
 
     /**
@@ -176,8 +181,8 @@ export class ComponentOverlayNode extends Node {
 
         // Labels ride the medium-1 edges they name, on the outside of the
         // rectangle so they clear the arrow running through its diagonal.
-        etLabel.centerBottom = p1Mids.tangentialMid.plusXY(0, -5);
-        dnLabel.leftCenter = c1Mids.normalAnchor.plusXY(7, 0);
+        etLabel.centerBottom = p1Mids.tangentialMid.plusXY(0, COMPONENT_OVERLAY_NODE_SETTINGS.ET_LABEL_Y_OFFSET);
+        dnLabel.leftCenter = c1Mids.normalAnchor.plusXY(COMPONENT_OVERLAY_NODE_SETTINGS.DN_LABEL_X_OFFSET, 0);
       },
     );
   }

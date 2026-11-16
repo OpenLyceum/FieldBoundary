@@ -19,7 +19,11 @@ import type { Vector2 } from "scenerystack/dot";
 import { Node, Rectangle, RichText } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
-import { CALLOUT_DURATION_MS, LIMITING_CASE_RATIO } from "../../FieldBoundaryConstants.js";
+import {
+  CALLOUT_DURATION_MS,
+  LIMITING_CASE_CALLOUT_NODE_SETTINGS,
+  LIMITING_CASE_RATIO,
+} from "../../FieldBoundaryConstants.js";
 
 /** Which regime the material ratio is currently in. */
 type LimitingCase = "none" | "medium2Dominant" | "medium1Dominant" | "matched";
@@ -62,17 +66,23 @@ export class LimitingCaseCalloutNode extends Node {
     // Wraps rather than shrinking to fit: these sentences name a phenomenon and
     // have to stay readable, and a single long line would reach the medium panel.
     const text = new RichText("", {
-      font: new PhetFont(13),
+      font: new PhetFont(LIMITING_CASE_CALLOUT_NODE_SETTINGS.TEXT_FONT_SIZE),
       fill: FieldBoundaryColors.textColorProperty,
-      lineWrap: 320,
+      lineWrap: LIMITING_CASE_CALLOUT_NODE_SETTINGS.TEXT_LINE_WRAP,
       align: "center",
     });
-    const background = new Rectangle(0, 0, 10, 10, {
-      cornerRadius: 6,
-      fill: FieldBoundaryColors.calloutBackgroundColorProperty,
-      stroke: FieldBoundaryColors.interfaceStrokeProperty,
-      lineWidth: 1.5,
-    });
+    const background = new Rectangle(
+      0,
+      0,
+      LIMITING_CASE_CALLOUT_NODE_SETTINGS.BACKGROUND_WIDTH,
+      LIMITING_CASE_CALLOUT_NODE_SETTINGS.BACKGROUND_HEIGHT,
+      {
+        cornerRadius: LIMITING_CASE_CALLOUT_NODE_SETTINGS.BACKGROUND_CORNER_RADIUS,
+        fill: FieldBoundaryColors.calloutBackgroundColorProperty,
+        stroke: FieldBoundaryColors.interfaceStrokeProperty,
+        lineWidth: LIMITING_CASE_CALLOUT_NODE_SETTINGS.BACKGROUND_LINE_WIDTH,
+      },
+    );
     this.children = [background, text];
 
     text.boundsProperty.link(() => {

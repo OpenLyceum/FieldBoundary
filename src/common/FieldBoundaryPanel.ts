@@ -1,3 +1,4 @@
+import { FIELD_BOUNDARY_PANEL_SETTINGS } from "../FieldBoundaryConstants.js";
 /**
  * FieldBoundaryPanel.ts
  *
@@ -40,8 +41,8 @@ export class FieldBoundaryPanel extends Panel {
         fill: FieldBoundaryColors.panelBackgroundColorProperty,
         stroke: FieldBoundaryColors.panelBorderColorProperty,
         cornerRadius: PANEL_CORNER_RADIUS,
-        xMargin: 12,
-        yMargin: 10,
+        xMargin: FIELD_BOUNDARY_PANEL_SETTINGS.OPTIONS_X_MARGIN,
+        yMargin: FIELD_BOUNDARY_PANEL_SETTINGS.OPTIONS_Y_MARGIN,
       },
       providedOptions,
     );

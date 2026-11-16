@@ -18,13 +18,14 @@ import { StringUtils } from "scenerystack/phetcommon";
 import { Node, Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
+import { ANGLE_READOUT_NODE_SETTINGS } from "../../FieldBoundaryConstants.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import { angleFromNormal } from "../model/interfaceFields.js";
 
 /** Below this |tanθ₁| the ratio is numerically meaningless. */
-const MIN_TAN = 1e-3;
+const MIN_TAN: number = ANGLE_READOUT_NODE_SETTINGS.MIN_TAN;
 /** Relative agreement counted as "matches the prediction". */
-const MATCH_TOLERANCE = 0.02;
+const MATCH_TOLERANCE: number = ANGLE_READOUT_NODE_SETTINGS.MATCH_TOLERANCE;
 
 export type AngleReadoutStrings = {
   /** e.g. "tanθ₂/tanθ₁" */
@@ -48,15 +49,18 @@ export class AngleReadoutNode extends Node {
   ) {
     super({ visibleProperty, tagName: "div" });
 
-    const font = new PhetFont(14);
+    const font = new PhetFont(ANGLE_READOUT_NODE_SETTINGS.FONT_FONT_SIZE);
     const theta1Text = new Text("", { font, fill: FieldBoundaryColors.textColorProperty });
     const theta2Text = new Text("", { font, fill: FieldBoundaryColors.textColorProperty });
     const ratioText = new Text("", { font, fill: FieldBoundaryColors.accentColorProperty });
-    const predictedText = new Text("", { font: new PhetFont(12), fill: FieldBoundaryColors.textColorProperty });
+    const predictedText = new Text("", {
+      font: new PhetFont(ANGLE_READOUT_NODE_SETTINGS.PREDICTED_TEXT_FONT_SIZE),
+      fill: FieldBoundaryColors.textColorProperty,
+    });
 
     this.addChild(
       new VBox({
-        spacing: 4,
+        spacing: ANGLE_READOUT_NODE_SETTINGS.CONSTRUCTOR_SPACING,
         align: "left",
         children: [theta1Text, theta2Text, ratioText, predictedText],
       }),

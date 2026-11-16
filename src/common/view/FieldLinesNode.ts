@@ -9,7 +9,12 @@ import { type Bounds2, Vector2 } from "scenerystack/dot";
 import type { ModelViewTransform2 } from "scenerystack/phetcommon";
 import { CanvasNode } from "scenerystack/scenery";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
-import { FIELD_LINE_COUNT, MODEL_HALF_HEIGHT, MODEL_HALF_WIDTH } from "../../FieldBoundaryConstants.js";
+import {
+  FIELD_LINE_COUNT,
+  FIELD_LINES_NODE_SETTINGS,
+  MODEL_HALF_HEIGHT,
+  MODEL_HALF_WIDTH,
+} from "../../FieldBoundaryConstants.js";
 
 export class FieldLinesNode extends CanvasNode {
   private readonly modelViewTransform: ModelViewTransform2;
@@ -49,7 +54,7 @@ export class FieldLinesNode extends CanvasNode {
     const mvt = this.modelViewTransform;
 
     context.strokeStyle = FieldBoundaryColors.fieldLineColorProperty.value.toCSS();
-    context.lineWidth = 1.5;
+    context.lineWidth = FIELD_LINES_NODE_SETTINGS.LINE_WIDTH_LINE_WIDTH;
     context.globalAlpha = 0.75;
 
     const xMin = -MODEL_HALF_WIDTH * 0.92;

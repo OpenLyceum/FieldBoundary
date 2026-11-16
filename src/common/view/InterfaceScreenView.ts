@@ -13,6 +13,7 @@ import { PhetFont, ProtractorNode, ResetAllButton } from "scenerystack/scenery-p
 import { ScreenView, type ScreenViewOptions } from "scenerystack/sim";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
 import {
+  INTERFACE_SCREEN_VIEW_SETTINGS,
   MODEL_HALF_HEIGHT,
   MODEL_HALF_WIDTH,
   PLAY_AREA_HEIGHT,
@@ -51,15 +52,15 @@ import { ToolsControlPanel } from "./ToolsControlPanel.js";
 const PROTRACTOR_ROTATION_STEP = Math.PI / 36;
 
 /** Inset of tags, readouts and panels from the play-area edges, px. */
-const PLAY_AREA_INSET = 8;
+const PLAY_AREA_INSET: number = INTERFACE_SCREEN_VIEW_SETTINGS.PLAY_AREA_INSET;
 /** Top of the angle readout, below the medium 1 tag, px from the play-area top. */
-const ANGLE_READOUT_TOP = 36;
+const ANGLE_READOUT_TOP: number = INTERFACE_SCREEN_VIEW_SETTINGS.ANGLE_READOUT_TOP;
 /** How far above the interface the limiting-case callout is anchored, px. */
-const LIMITING_CALLOUT_OFFSET_Y = 92;
+const LIMITING_CALLOUT_OFFSET_Y: number = INTERFACE_SCREEN_VIEW_SETTINGS.LIMITING_CALLOUT_OFFSET_Y;
 /** Gap between the play area and the control column, px. */
-const CONTROLS_GAP = 12;
+const CONTROLS_GAP: number = INTERFACE_SCREEN_VIEW_SETTINGS.CONTROLS_GAP;
 /** Vertical gap between stacked control panels, px. */
-const PANEL_SPACING = 10;
+const PANEL_SPACING: number = INTERFACE_SCREEN_VIEW_SETTINGS.PANEL_SPACING;
 
 export type InterfaceScreenViewConfig = {
   mode: ComponentOverlayMode;
@@ -274,13 +275,13 @@ export class InterfaceScreenView extends ScreenView {
     playLayer.addChild(fluxBoxNode);
 
     const medium1Tag = new Text(ui.medium1StringProperty, {
-      font: new PhetFont({ size: 14, weight: "bold" }),
+      font: new PhetFont({ size: INTERFACE_SCREEN_VIEW_SETTINGS.MEDIUM1_TAG_FONT_SIZE, weight: "bold" }),
       fill: FieldBoundaryColors.textColorProperty,
       left: playBounds.minX + PLAY_AREA_INSET,
       top: playBounds.minY + PLAY_AREA_INSET,
     });
     const medium2Tag = new Text(ui.medium2StringProperty, {
-      font: new PhetFont({ size: 14, weight: "bold" }),
+      font: new PhetFont({ size: INTERFACE_SCREEN_VIEW_SETTINGS.MEDIUM2_TAG_FONT_SIZE, weight: "bold" }),
       fill: FieldBoundaryColors.textColorProperty,
       left: playBounds.minX + PLAY_AREA_INSET,
       bottom: playBounds.maxY - PLAY_AREA_INSET,
@@ -294,7 +295,7 @@ export class InterfaceScreenView extends ScreenView {
     const protractorA11y = StringManager.getInstance().getProtractorA11yStrings();
     this.protractor = new ProtractorNode({
       rotatable: true,
-      scale: 0.55,
+      scale: INTERFACE_SCREEN_VIEW_SETTINGS.PROTRACTOR_SCALE,
       cursor: "pointer",
       visibleProperty: config.shared.showProtractorProperty,
 
@@ -496,9 +497,9 @@ export class InterfaceScreenView extends ScreenView {
     // The unit convention is otherwise only in doc/model.md, which students do
     // not read; every slider and readout would be a bare number.
     const unitsNote = new Text(ui.unitsNoteStringProperty, {
-      font: new PhetFont(11),
+      font: new PhetFont(INTERFACE_SCREEN_VIEW_SETTINGS.UNITS_NOTE_FONT_SIZE),
       fill: FieldBoundaryColors.freeComponentColorProperty,
-      maxWidth: PLAY_AREA_RIGHT_GUTTER - 32,
+      maxWidth: PLAY_AREA_RIGHT_GUTTER - INTERFACE_SCREEN_VIEW_SETTINGS.UNITS_NOTE_MAX_WIDTH_OFFSET,
     });
     unitsNote.left = controlsLeft;
     unitsNote.top = toolsPanel.bottom + PANEL_SPACING;

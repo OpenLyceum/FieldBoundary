@@ -23,6 +23,7 @@ import { type Color, HBox, Text, VBox } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { Checkbox, VerticalCheckboxGroup } from "scenerystack/sun";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
+import { TOOLS_CONTROL_PANEL_SETTINGS } from "../../FieldBoundaryConstants.js";
 import { FieldBoundaryPanel } from "../FieldBoundaryPanel.js";
 import type { SharedModel } from "../model/SharedModel.js";
 
@@ -64,13 +65,13 @@ export class ToolsControlPanel extends FieldBoundaryPanel {
     accessibleHeading: TReadOnlyProperty<string>,
   ) {
     const title = new Text(strings.title, {
-      font: new PhetFont({ size: 15, weight: "bold" }),
+      font: new PhetFont({ size: TOOLS_CONTROL_PANEL_SETTINGS.TITLE_FONT_SIZE, weight: "bold" }),
       fill: FieldBoundaryColors.textColorProperty,
     });
 
     const label = (stringProperty: TReadOnlyProperty<string>): Text =>
       new Text(stringProperty, {
-        font: new PhetFont(14),
+        font: new PhetFont(TOOLS_CONTROL_PANEL_SETTINGS.LABEL_FONT_SIZE),
         fill: FieldBoundaryColors.textColorProperty,
       });
 
@@ -79,17 +80,17 @@ export class ToolsControlPanel extends FieldBoundaryPanel {
     // thing it hides are matched without reading the label.
     const symbol = (stringProperty: TReadOnlyProperty<string>, fill: TReadOnlyProperty<Color>): Text =>
       new Text(stringProperty, {
-        font: new PhetFont({ size: 15, weight: "bold" }),
+        font: new PhetFont({ size: TOOLS_CONTROL_PANEL_SETTINGS.SYMBOL_FONT_SIZE, weight: "bold" }),
         fill,
       });
 
     const vectorsHeading = new Text(strings.vectors, {
-      font: new PhetFont(14),
+      font: new PhetFont(TOOLS_CONTROL_PANEL_SETTINGS.VECTORS_HEADING_FONT_SIZE),
       fill: FieldBoundaryColors.textColorProperty,
     });
 
     const vectorsRow = new HBox({
-      spacing: 14,
+      spacing: TOOLS_CONTROL_PANEL_SETTINGS.VECTORS_ROW_SPACING,
       children: [
         new Checkbox(shared.showPrimaryVectorProperty, symbol(strings.primarySymbol, strings.primaryColor), {
           ...CHECKBOX_OPTIONS,
@@ -117,14 +118,14 @@ export class ToolsControlPanel extends FieldBoundaryPanel {
         { property: shared.fluxBox.showProperty, createNode: () => label(strings.fluxBox) },
       ],
       {
-        spacing: 8,
+        spacing: TOOLS_CONTROL_PANEL_SETTINGS.GROUP_SPACING,
         checkboxOptions: CHECKBOX_OPTIONS,
       },
     );
 
     super(
       new VBox({
-        spacing: 10,
+        spacing: TOOLS_CONTROL_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
         align: "left",
         children: [title, vectorsHeading, vectorsRow, group],
       }),
