@@ -50,7 +50,7 @@ export class FluxBoxNode extends Node {
         FLUX_BOX_NODE_SETTINGS.OUTLINE_LINE_DASH_DASH,
         FLUX_BOX_NODE_SETTINGS.CONSTRUCTOR_OUTLINE_LINE_DASH_DASH,
       ],
-      fill: "rgba(255, 224, 130, 0.07)",
+      fill: FieldBoundaryColors.fluxBoxFillProperty,
       cursor: "pointer",
       tagName: "div",
       focusable: true,
