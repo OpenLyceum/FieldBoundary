@@ -80,6 +80,7 @@ keep it dynamic, or a non-visual student hears nothing about the fields themselv
   `src/common/view/FluxBoxNode.ts` — a near-transparent highlight wash over the themed stroke so the
   selected region reads in both profiles. Not a UI chrome token; theming it would invite a projector
   value that either vanishes or paints a solid tint over the field.
+- `memory-leak:DualMediaInterfaceModel`: abstract base; dispose covered via `ElectricModel` / `MagneticModel`.
 
 ## Testing
 
