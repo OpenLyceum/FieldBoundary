@@ -74,10 +74,6 @@ Screen summaries live in `*ScreenSummaryContent.ts`; a11y strings under `a11y` i
 The "current details" region is a live `DerivedProperty` built in `currentDetails.ts` —
 keep it dynamic, or a non-visual student hears nothing about the fields themselves.
 
-## Compliance carve-outs
-
-- `memory-leak:DualMediaInterfaceModel`: abstract base; dispose covered via `ElectricModel` / `MagneticModel`.
-
 ## Testing
 
 | Path | Covers |
