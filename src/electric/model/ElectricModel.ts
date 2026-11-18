@@ -3,8 +3,8 @@
  *
  * Electric interface: drag E₁ angle/magnitude; derive E₂, D₁, D₂ from εᵣ.
  */
-import { BooleanProperty, NumberProperty } from "scenerystack/axon";
-import { Vector2, Vector2Property } from "scenerystack/dot";
+import { BooleanProperty, DerivedProperty, type TReadOnlyProperty } from "scenerystack/axon";
+import type { Vector2 } from "scenerystack/dot";
 import { DualMediaInterfaceModel } from "../../common/model/DualMediaInterfaceModel.js";
 import { refractElectric } from "../../common/model/interfaceFields.js";
 import { ELECTRIC_PRESETS } from "../../common/model/MaterialPresets.js";
@@ -16,7 +16,9 @@ import {
   SURFACE_CHARGE_RANGE,
 } from "../../FieldBoundaryConstants.js";
 
-export class ElectricModel extends DualMediaInterfaceModel {
+type ElectricRefraction = ReturnType<typeof refractElectric>;
+
+export class ElectricModel extends DualMediaInterfaceModel<ElectricRefraction> {
   /** Relative permittivity εᵣ in medium 1 (alias of param1Property). */
   public readonly eps1Property = this.param1Property;
   /** Relative permittivity εᵣ in medium 2 (alias of param2Property). */
@@ -34,11 +36,20 @@ export class ElectricModel extends DualMediaInterfaceModel {
   public readonly d2Property = this.companion2Property;
 
   /** Polarization P = (εᵣ − 1) E in each medium. */
-  public readonly p1Property = new Vector2Property(new Vector2(0, 0));
-  public readonly p2Property = new Vector2Property(new Vector2(0, 0));
+  public readonly p1Property: TReadOnlyProperty<Vector2> = new DerivedProperty(
+    [this.refractionProperty],
+    (refracted) => refracted.p1,
+  );
+  public readonly p2Property: TReadOnlyProperty<Vector2> = new DerivedProperty(
+    [this.refractionProperty],
+    (refracted) => refracted.p2,
+  );
 
   /** Bound surface charge σ_b = P₁ₙ − P₂ₙ on the interface. */
-  public readonly boundChargeProperty = new NumberProperty(0);
+  public readonly boundChargeProperty: TReadOnlyProperty<number> = new DerivedProperty(
+    [this.refractionProperty],
+    (refracted) => refracted.sigmaB,
+  );
 
   /**
    * Show polarization arrows and bound-charge glyphs (electric-only tool).
@@ -57,18 +68,9 @@ export class ElectricModel extends DualMediaInterfaceModel {
       parameterRange: ELECTRIC_PARAMETER_RANGE,
       freeSourceDefault: DEFAULT_SURFACE_CHARGE,
       freeSourceRange: SURFACE_CHARGE_RANGE,
+      refract: refractElectric,
+      fieldsOf: (refracted) => ({ primary2: refracted.e2, companion1: refracted.d1, companion2: refracted.d2 }),
     });
-    this.connectFieldMultilink();
-  }
-
-  protected applyRefraction(primary1: Vector2, eps1: number, eps2: number, sigmaF: number): void {
-    const refracted = refractElectric(primary1, eps1, eps2, sigmaF);
-    this.e2Property.value = refracted.e2;
-    this.d1Property.value = refracted.d1;
-    this.d2Property.value = refracted.d2;
-    this.p1Property.value = refracted.p1;
-    this.p2Property.value = refracted.p2;
-    this.boundChargeProperty.value = refracted.sigmaB;
   }
 
   /** Set E₁ from a medium-1 tip (model coords); magnitude stays fixed. */
@@ -82,10 +84,10 @@ export class ElectricModel extends DualMediaInterfaceModel {
   }
 
   public override dispose(): void {
-    super.dispose();
     this.p1Property.dispose();
     this.p2Property.dispose();
     this.boundChargeProperty.dispose();
     this.showBoundChargeProperty.dispose();
+    super.dispose();
   }
 }

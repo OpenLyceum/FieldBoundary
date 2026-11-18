@@ -3,8 +3,8 @@
  *
  * Magnetic interface: drag H₁ angle/magnitude; derive H₂, B₁, B₂ from μᵣ.
  */
-import { BooleanProperty, NumberProperty } from "scenerystack/axon";
-import { Vector2, Vector2Property } from "scenerystack/dot";
+import { BooleanProperty, DerivedProperty, type TReadOnlyProperty } from "scenerystack/axon";
+import type { Vector2 } from "scenerystack/dot";
 import { DualMediaInterfaceModel } from "../../common/model/DualMediaInterfaceModel.js";
 import { refractMagnetic } from "../../common/model/interfaceFields.js";
 import { MAGNETIC_PRESETS } from "../../common/model/MaterialPresets.js";
@@ -16,7 +16,9 @@ import {
   SURFACE_CURRENT_RANGE,
 } from "../../FieldBoundaryConstants.js";
 
-export class MagneticModel extends DualMediaInterfaceModel {
+type MagneticRefraction = ReturnType<typeof refractMagnetic>;
+
+export class MagneticModel extends DualMediaInterfaceModel<MagneticRefraction> {
   /** Relative permeability μᵣ in medium 1 (alias of param1Property). */
   public readonly mu1Property = this.param1Property;
   /** Relative permeability μᵣ in medium 2 (alias of param2Property). */
@@ -34,11 +36,20 @@ export class MagneticModel extends DualMediaInterfaceModel {
   public readonly b2Property = this.companion2Property;
 
   /** Magnetization M = (μᵣ − 1) H in each medium (dual of P). */
-  public readonly m1Property = new Vector2Property(new Vector2(0, 0));
-  public readonly m2Property = new Vector2Property(new Vector2(0, 0));
+  public readonly m1Property: TReadOnlyProperty<Vector2> = new DerivedProperty(
+    [this.refractionProperty],
+    (refracted) => refracted.m1,
+  );
+  public readonly m2Property: TReadOnlyProperty<Vector2> = new DerivedProperty(
+    [this.refractionProperty],
+    (refracted) => refracted.m2,
+  );
 
   /** Bound surface current K_b = M₂ₜ − M₁ₜ on the interface (dual of σ_b). */
-  public readonly boundCurrentProperty = new NumberProperty(0);
+  public readonly boundCurrentProperty: TReadOnlyProperty<number> = new DerivedProperty(
+    [this.refractionProperty],
+    (refracted) => refracted.boundCurrent,
+  );
 
   /**
    * Show magnetization arrows and bound-current glyphs (magnetic-only tool).
@@ -56,18 +67,9 @@ export class MagneticModel extends DualMediaInterfaceModel {
       parameterRange: MAGNETIC_PARAMETER_RANGE,
       freeSourceDefault: DEFAULT_SURFACE_CURRENT,
       freeSourceRange: SURFACE_CURRENT_RANGE,
+      refract: refractMagnetic,
+      fieldsOf: (refracted) => ({ primary2: refracted.h2, companion1: refracted.b1, companion2: refracted.b2 }),
     });
-    this.connectFieldMultilink();
-  }
-
-  protected applyRefraction(primary1: Vector2, mu1: number, mu2: number, surfaceCurrent: number): void {
-    const refracted = refractMagnetic(primary1, mu1, mu2, surfaceCurrent);
-    this.h2Property.value = refracted.h2;
-    this.b1Property.value = refracted.b1;
-    this.b2Property.value = refracted.b2;
-    this.m1Property.value = refracted.m1;
-    this.m2Property.value = refracted.m2;
-    this.boundCurrentProperty.value = refracted.boundCurrent;
   }
 
   public setH1FromTip(tip: Vector2): void {
@@ -80,10 +82,10 @@ export class MagneticModel extends DualMediaInterfaceModel {
   }
 
   public override dispose(): void {
-    super.dispose();
     this.m1Property.dispose();
     this.m2Property.dispose();
     this.boundCurrentProperty.dispose();
     this.showBoundCurrentProperty.dispose();
+    super.dispose();
   }
 }

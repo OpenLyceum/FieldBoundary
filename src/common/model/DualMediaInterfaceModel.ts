@@ -3,10 +3,17 @@
  *
  * Shared skeleton for Electric / Magnetic interface models: relative material
  * parameters, free-source Property, primary angle/magnitude, presets, and tip drag.
- * Subclasses own public aliases (e1/h1, …) and implement refraction writeback.
+ * The primary field and one refraction result are derived from those inputs;
+ * subclasses supply the refraction law and own public aliases (e1/h1, …).
  */
-import { Multilink, NumberProperty, type Property, StringProperty, type UnknownMultilink } from "scenerystack/axon";
-import { type Range, Vector2, Vector2Property } from "scenerystack/dot";
+import {
+  DerivedProperty,
+  NumberProperty,
+  type Property,
+  StringProperty,
+  type TReadOnlyProperty,
+} from "scenerystack/axon";
+import type { Range, Vector2 } from "scenerystack/dot";
 import type { TModel } from "scenerystack/joist";
 import {
   DEFAULT_FIELD_ANGLE,
@@ -17,7 +24,17 @@ import { angleFromNormal, clampAngle, fieldFromPolar } from "./interfaceFields.j
 import { type MaterialPreset, type MaterialPresetId, presetById } from "./MaterialPresets.js";
 import { SharedModel } from "./SharedModel.js";
 
-export type DualMediaInterfaceModelConfig = {
+/** The refracted fields every interface screen shows, by role. */
+type InterfaceFields = {
+  /** The primary field in medium 2 (E₂ / H₂). */
+  readonly primary2: Vector2;
+  /** The companion field in medium 1 (D₁ / B₁). */
+  readonly companion1: Vector2;
+  /** The companion field in medium 2 (D₂ / B₂). */
+  readonly companion2: Vector2;
+};
+
+export type DualMediaInterfaceModelConfig<R> = {
   defaultParam1: number;
   defaultParam2: number;
   defaultMedium1Preset: MaterialPresetId;
@@ -28,9 +45,13 @@ export type DualMediaInterfaceModelConfig = {
   parameterRange: Range;
   freeSourceDefault: number;
   freeSourceRange: Range;
+  /** The refraction law: everything derived from the primary field and the material / free-source parameters. */
+  refract: (primary1: Vector2, param1: number, param2: number, freeSource: number) => R;
+  /** Picks the role-named fields out of a refraction result. */
+  fieldsOf: (refraction: R) => InterfaceFields;
 };
 
-export abstract class DualMediaInterfaceModel implements TModel {
+export abstract class DualMediaInterfaceModel<R> implements TModel {
   public readonly shared = new SharedModel();
 
   public readonly param1Property: NumberProperty;
@@ -45,15 +66,19 @@ export abstract class DualMediaInterfaceModel implements TModel {
   public readonly primaryAngleProperty = new NumberProperty(DEFAULT_FIELD_ANGLE);
   public readonly primaryMagnitudeProperty = new NumberProperty(DEFAULT_FIELD_MAGNITUDE);
 
-  public readonly primary1Property = new Vector2Property(fieldFromPolar(DEFAULT_FIELD_MAGNITUDE, DEFAULT_FIELD_ANGLE));
-  public readonly primary2Property = new Vector2Property(new Vector2(0, 0));
-  public readonly companion1Property = new Vector2Property(new Vector2(0, 0));
-  public readonly companion2Property = new Vector2Property(new Vector2(0, 0));
+  /** The primary field in medium 1, from its angle and magnitude. */
+  public readonly primary1Property: TReadOnlyProperty<Vector2>;
+
+  /** One refraction result from the primary field and the material / free-source parameters. */
+  protected readonly refractionProperty: TReadOnlyProperty<R>;
+
+  public readonly primary2Property: TReadOnlyProperty<Vector2>;
+  public readonly companion1Property: TReadOnlyProperty<Vector2>;
+  public readonly companion2Property: TReadOnlyProperty<Vector2>;
 
   private applyingPreset = false;
-  private fieldMultilink: UnknownMultilink | null = null;
 
-  protected constructor(config: DualMediaInterfaceModelConfig) {
+  protected constructor(config: DualMediaInterfaceModelConfig<R>) {
     this.parameterRange = config.parameterRange;
     this.presets = config.presets;
     this.param1Property = new NumberProperty(config.defaultParam1, { range: config.parameterRange });
@@ -64,36 +89,21 @@ export abstract class DualMediaInterfaceModel implements TModel {
     this.medium1PresetProperty = new StringProperty(config.defaultMedium1Preset) as Property<MaterialPresetId>;
     this.medium2PresetProperty = new StringProperty(config.defaultMedium2Preset) as Property<MaterialPresetId>;
 
+    this.primary1Property = new DerivedProperty(
+      [this.primaryAngleProperty, this.primaryMagnitudeProperty],
+      (angle, magnitude) => fieldFromPolar(magnitude, angle),
+    );
+    this.refractionProperty = new DerivedProperty(
+      [this.primary1Property, this.param1Property, this.param2Property, this.freeSourceProperty],
+      config.refract,
+    );
+    this.primary2Property = new DerivedProperty([this.refractionProperty], (r) => config.fieldsOf(r).primary2);
+    this.companion1Property = new DerivedProperty([this.refractionProperty], (r) => config.fieldsOf(r).companion1);
+    this.companion2Property = new DerivedProperty([this.refractionProperty], (r) => config.fieldsOf(r).companion2);
+
     this.medium1PresetProperty.link((id) => this.applyPreset(1, id));
     this.medium2PresetProperty.link((id) => this.applyPreset(2, id));
   }
-
-  /**
-   * Wire primary → refracted Multilink. Call from the subclass constructor after
-   * any extra Properties (e.g. polarization) used by applyRefraction exist.
-   */
-  protected connectFieldMultilink(): void {
-    this.fieldMultilink = Multilink.multilink(
-      [
-        this.primaryAngleProperty,
-        this.primaryMagnitudeProperty,
-        this.param1Property,
-        this.param2Property,
-        this.freeSourceProperty,
-      ],
-      (angle, magnitude, param1, param2, freeSource) => {
-        const primary1 = fieldFromPolar(magnitude, angle);
-        this.primary1Property.value = primary1;
-        this.applyRefraction(primary1, param1, param2, freeSource);
-      },
-    );
-  }
-
-  /**
-   * Write derived primary2 / companion fields (and any screen-specific extras)
-   * from the primary field and material / free-source parameters.
-   */
-  protected abstract applyRefraction(primary1: Vector2, param1: number, param2: number, freeSource: number): void;
 
   /** Set primary angle from a medium-1 tip (model coords); magnitude stays fixed. */
   public setPrimaryFromTip(tip: Vector2): void {
@@ -152,12 +162,16 @@ export abstract class DualMediaInterfaceModel implements TModel {
 
   /**
    * Release every AXON listener this model owns. Exercised by the memory-leak
-   * suite: the field Multilink is registered on the parameter Properties, so
-   * without disposing it the whole model stays reachable.
+   * suite: the derived fields are registered on the parameter Properties, so
+   * without disposing them the whole model stays reachable. Subclasses dispose
+   * their own projections of refractionProperty before calling this.
    */
   public dispose(): void {
-    this.fieldMultilink?.dispose();
-    this.fieldMultilink = null;
+    this.primary2Property.dispose();
+    this.companion1Property.dispose();
+    this.companion2Property.dispose();
+    this.refractionProperty.dispose();
+    this.primary1Property.dispose();
     this.shared.dispose();
     this.param1Property.dispose();
     this.param2Property.dispose();
@@ -166,10 +180,6 @@ export abstract class DualMediaInterfaceModel implements TModel {
     this.medium2PresetProperty.dispose();
     this.primaryAngleProperty.dispose();
     this.primaryMagnitudeProperty.dispose();
-    this.primary1Property.dispose();
-    this.primary2Property.dispose();
-    this.companion1Property.dispose();
-    this.companion2Property.dispose();
   }
 
   public step(_dt: number): void {
