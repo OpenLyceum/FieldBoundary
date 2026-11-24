@@ -94,3 +94,7 @@ Optical rays / Fresnel / TIR; curved interfaces; time-harmonic waves.
 Not yet built: a **Predict mode** (hide the medium-2 arrows, let the student place a
 ghost vector, reveal with component-wise feedback). Nothing in the UI currently asks
 the student to commit to a prediction.
+
+## Compliance carve-outs
+
+None.

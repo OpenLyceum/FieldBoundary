@@ -10,7 +10,7 @@
  * readout, the model, and the accessible value text all stay in real units.
  */
 import { DerivedProperty, MappedProperty, type Property, type TReadOnlyProperty } from "scenerystack/axon";
-import { Dimension2, Range } from "scenerystack/dot";
+import { Dimension2, Range, roundSymmetric } from "scenerystack/dot";
 import { StringUtils } from "scenerystack/phetcommon";
 import type { Color } from "scenerystack/scenery";
 import { type Node, Text, VBox } from "scenerystack/scenery";
@@ -36,7 +36,7 @@ export type MediaControlPanelStrings = {
 
 /** ≤ 10 reads better with a decimal; above that the decimal is noise. */
 function formatParameter(value: number): string {
-  return value < 10 ? StringUtils.toFixedLTR(value, 1) : Math.round(value).toString();
+  return value < 10 ? StringUtils.toFixedLTR(value, 1) : roundSymmetric(value).toString();
 }
 
 export class MediaControlPanel extends FieldBoundaryPanel {

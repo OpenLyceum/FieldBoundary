@@ -12,6 +12,7 @@
  * shared with the bound-source layer via `interfaceMarkers`.
  */
 import type { TReadOnlyProperty } from "scenerystack/axon";
+import { roundSymmetric } from "scenerystack/dot";
 import type { ModelViewTransform2 } from "scenerystack/phetcommon";
 import { Node } from "scenerystack/scenery";
 import FieldBoundaryColors from "../../FieldBoundaryColors.js";
@@ -46,7 +47,7 @@ export class FreeSourceOverlayNode extends Node {
             : FieldBoundaryColors.negativeChargeColorProperty
           : FieldBoundaryColors.surfaceCurrentColorProperty;
 
-      const count = Math.max(1, Math.min(MAX_MARKERS, Math.round((magnitude / maxValue) * MAX_MARKERS)));
+      const count = Math.max(1, Math.min(MAX_MARKERS, roundSymmetric((magnitude / maxValue) * MAX_MARKERS)));
 
       const xMin = -MODEL_HALF_WIDTH * 0.82;
       const xMax = MODEL_HALF_WIDTH * 0.82;
