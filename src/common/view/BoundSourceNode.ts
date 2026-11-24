@@ -15,7 +15,7 @@
  * since P is collinear with E and would otherwise be buried under it.
  */
 import { Multilink, type Property, type TReadOnlyProperty } from "scenerystack/axon";
-import { Vector2 } from "scenerystack/dot";
+import { roundSymmetric, Vector2 } from "scenerystack/dot";
 import type { ModelViewTransform2 } from "scenerystack/phetcommon";
 import { Node, Text } from "scenerystack/scenery";
 import { ArrowNode, PhetFont } from "scenerystack/scenery-phet";
@@ -138,7 +138,7 @@ export class BoundSourceNode extends Node {
           : positiveColorProperty;
       const count = Math.max(
         1,
-        Math.min(MAX_MARKERS, Math.round((magnitude / BOUND_CHARGE_DISPLAY_MAX) * MAX_MARKERS)),
+        Math.min(MAX_MARKERS, roundSymmetric((magnitude / BOUND_CHARGE_DISPLAY_MAX) * MAX_MARKERS)),
       );
 
       const xMin = -MODEL_HALF_WIDTH * 0.82;
